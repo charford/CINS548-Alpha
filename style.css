@@ -1,0 +1,32 @@
+a:link,a:visited {
+	text-decoration: none;
+	color: maroon;
+}
+a:hover {
+	text-decoration: underline;
+	color: red;
+}
+.results_table {
+	text-align: left;
+	width: 420pt;
+	padding: 5pt;
+	border-radius: 5pt;
+	border: 1pt solid black;
+}
+.results_firstrow {
+	background-color: #ccc;
+}
+
+.results_table tr {
+	height: 25pt;
+}
+
+.results_table td,th{
+	padding: 5pt;
+	border-bottom: 1pt dashed #ccc;
+}
+.delete_post {
+	float: right;
+	font-weight: bold;
+	text-decoration: none;
+}

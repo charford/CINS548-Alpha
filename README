@@ -13,6 +13,5 @@ TODO:
 => Make reply to post functional
 => Make password reset function work
 => Add option to create admins
-=> Check password is equal to confirm password
 => Add delete account function
 => Make delete post function work

@@ -1,0 +1,10 @@
+<?php
+//details for mysql server connection below
+$host = "localhost";
+$username = "USER";
+$password = "PASSWORD";
+$db_name = "cins548";
+//connect to mysql db
+mysql_connect("$host", "$username", "$password")or die("can't connect to db");
+mysql_select_db("$db_name")or die("cannot select db");
+?>

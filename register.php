@@ -74,6 +74,10 @@ error_reporting(-1);
 			echo "<p>confirm password can't be blank</p>";
 			$errors=1;		
 		}
+		if($password!=$confirm_password) {
+			echo "<p>passwords don't match</p>";
+			$errors=1;
+		}
 		if($birth_month=='') {
 			echo "<p>birth month can't be blank</p>";
 			$errors=1;		
@@ -106,7 +110,7 @@ error_reporting(-1);
 		//encrypt using sha256 and an encrypted salt
 		$password = hash('sha256',$password.$salt);
 
-		echo "$password";
+		//echo "$password";
 		
 		if($errors==0) {
 			//insert into database

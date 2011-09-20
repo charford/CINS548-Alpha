@@ -8,7 +8,8 @@ TODO:
 
 => Change list of discussions from drop down to list of links
   => Joseph
-=> Add verification that post title is not blank
+=> Add verification that post title is not blank(fix it)
+  => Vajay
 => Make row a link, rather than title(highlight on mouse over)
   => Casey
 => Add restriction of posts in a time period

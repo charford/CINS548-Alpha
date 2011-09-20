@@ -13,7 +13,9 @@ TODO:
 => Make reply to post functional
   => Joseph
 => Make password reset function work
+  => Serena
 => Add option to create admins
+  => Wont implement via PHP, only through database == BETTER SECURITY
 => Add delete account function
   => Ethan
 => Make delete post function work

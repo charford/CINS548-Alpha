@@ -27,5 +27,6 @@ TODO:
 => Make everyone an admin
   => Casey
 => Filter out "scripts" from user input
+
 Future implementations:
 => Deactivate/Ban account rather than delete

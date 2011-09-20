@@ -1,7 +1,6 @@
 Super Secret Discussion Forum
 ------------------------------
-Note, all files are on github, except for 'mysql_settings.php' which contains sensitive information, that should not be publicly available.
-
+Note, all files are on github, except for 'mysql_settings.php' which contains sensitive information, that should not be publicly available. See mysql_settings.phpEXAMPLE for a sanitized version.
 URL: http://www.caseyharford.com/cins548
 
 TODO:

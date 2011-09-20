@@ -10,4 +10,8 @@ TODO:
 => Add verification that post title is not blank
   => Make row a link, rather than title
 => Add restriction of posts in a time period
+=> Make reply to post functional
+=> Make password reset function work
+=> Add option to create admins
+=> Check password is equal to confirm password
 => 

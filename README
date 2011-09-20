@@ -7,9 +7,12 @@ URL: http://www.caseyharford.com/cins548
 TODO:
 
 => Change list of discussions from drop down to list of links
+  => Joseph
 => Add verification that post title is not blank
-  => Make row a link, rather than title
+=> Make row a link, rather than title(highlight on mouse over)
+  => Casey
 => Add restriction of posts in a time period
+  => Vajay
 => Make reply to post functional
   => Joseph
 => Make password reset function work

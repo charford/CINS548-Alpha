@@ -1,3 +1,17 @@
 Super Secret Discussion Forum
 ------------------------------
 Note, all files are on github, except for 'mysql_settings.php' which contains sensitive information, that should not be publicly available.
+
+URL: http://www.caseyharford.com/cins548
+
+TODO:
+
+=> Change list of discussions from drop down to list of links
+=> Add verification that post title is not blank
+  => Make row a link, rather than title
+=> Add restriction of posts in a time period
+=> Make reply to post functional
+=> Make password reset function work
+=> Add option to create admins
+=> Check password is equal to confirm password
+=> 

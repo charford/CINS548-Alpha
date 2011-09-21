@@ -7,7 +7,7 @@ URL: http://www.caseyharford.com/cins548
 TODO:
 
 => Change list of discussions from drop down to list of links
-  => Joseph
+  => Joseph, OOPS, I(Casey) accidentally did this, meant to do the row => link, my bad
 => Add verification that post title is not blank(fix it)
   => Vajay
 => Make row a link, rather than title(highlight on mouse over)

@@ -157,13 +157,10 @@
 
 
 	echo "View Posts</p>
-	<h2>View Posts</h2>
-	<form action='' method='POST'>Select Discussion:<br /><select name='discussion_id'>";
+	<h2>View Posts</h2><p>First, choose a discussion:</p>";
 		for($i=0;$i<count($discussions_id); $i++) {
-			echo "$discussions_id[$i]";
-			echo "<option value='".$discussions_id[$i]."'>".$discussions_title[$i]."</option>";
+			echo "<p><a href='?action=viewposts&discussion_id=".$discussions_id[$i]."'>".$discussions_title[$i]."</a></p>";
 		}
-	echo "<input type='submit' value='View' /></select></form>";
 	exit;
 	}
 ?>

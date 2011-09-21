@@ -26,6 +26,8 @@ TODO:
   => Ethan
 => Make everyone an admin
   => Casey
+=> Make view users functional
+  => Casey
 => Filter out "scripts" from user input
 
 Future implementations:

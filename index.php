@@ -1,3 +1,4 @@
+<?php session_start(); ?>
 <html>
 <head>
 <title>Super Secret Discussion Forum</title>
@@ -5,7 +6,6 @@
 </head>
 <body>
 <?php	
-	session_start();
 	if(isset($_SESSION['logged_in'])) $logged_in = $_SESSION['logged_in'];
 	else $logged_in=0;
 	

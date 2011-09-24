@@ -1,0 +1,51 @@
+mysql> show tables;
++-------------------+
+| Tables_in_cins548 |
++-------------------+
+| discussions       |
+| posts             |
+| users             |
++-------------------+
+3 rows in set (0.00 sec)
+
+mysql> describe discussions;
++-------+--------------+------+-----+---------+----------------+
+| Field | Type         | Null | Key | Default | Extra          |
++-------+--------------+------+-----+---------+----------------+
+| id    | int(11)      | NO   | PRI | NULL    | auto_increment |
+| title | varchar(255) | YES  |     | NULL    |                |
++-------+--------------+------+-----+---------+----------------+
+2 rows in set (0.10 sec)
+
+mysql> describe posts;
++---------------+--------------+------+-----+---------+----------------+
+| Field         | Type         | Null | Key | Default | Extra          |
++---------------+--------------+------+-----+---------+----------------+
+| post_id       | int(11)      | NO   | PRI | NULL    | auto_increment |
+| content       | longtext     | NO   |     | NULL    |                |
+| date_posted   | date         | YES  |     | NULL    |                |
+| privacy       | int(11)      | NO   |     | 0       |                |
+| user_id       | varchar(128) | YES  |     | NULL    |                |
+| discussion_id | int(11)      | NO   |     | NULL    |                |
+| reply_id      | int(11)      | NO   |     | 0       |                |
+| title         | varchar(255) | NO   |     | NULL    |                |
++---------------+--------------+------+-----+---------+----------------+
+8 rows in set (0.00 sec)
+
+mysql> describe users;
++----------------+--------------+------+-----+---------+-------+
+| Field          | Type         | Null | Key | Default | Extra |
++----------------+--------------+------+-----+---------+-------+
+| username       | varchar(128) | NO   | PRI | NULL    |       |
+| password       | varchar(64)  | NO   |     | NULL    |       |
+| salt           | varchar(128) | NO   |     | NULL    |       |
+| email          | varchar(128) | YES  |     | NULL    |       |
+| f_name         | varchar(128) | YES  |     | NULL    |       |
+| l_name         | varchar(128) | YES  |     | NULL    |       |
+| bday           | date         | NO   |     | NULL    |       |
+| street_address | varchar(255) | NO   |     | NULL    |       |
+| zipcode        | varchar(5)   | NO   |     | NULL    |       |
+| phone_num      | varchar(10)  | YES  |     | NULL    |       |
+| user_type      | char(1)      | NO   |     | NULL    |       |
++----------------+--------------+------+-----+---------+-------+
+11 rows in set (0.00 sec)

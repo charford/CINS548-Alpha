@@ -115,7 +115,7 @@ error_reporting(-1);
 		if($errors==0) {
 			//insert into database
 			$sql = "INSERT INTO users 
-				VALUES ('$username','$password','$salt','$email','f_name','l_name','$bday','$street_address','$zipcode','$phone_number','0')";
+				VALUES ('$username','$password','$salt','$email','$f_name','$l_name','$bday','$street_address','$zipcode','$phone_number','0')";
 			$result = mysql_query($sql);
 			if($result) {
 				echo "<p>successfully added user</p>";

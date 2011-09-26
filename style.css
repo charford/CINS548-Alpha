@@ -1,3 +1,14 @@
+#rowtitle {
+	background-color: orange;
+	width: 100%;
+	height: 100%;
+}
+#postrow {
+	background-color: orange;
+}
+#postrow:hover {
+	background-color: #ccc;
+}
 a:link,a:visited {
 	text-decoration: none;
 	color: maroon;
@@ -29,4 +40,7 @@ a:hover {
 	float: right;
 	font-weight: bold;
 	text-decoration: none;
+}
+#date_posted {
+	width:75pt;
 }

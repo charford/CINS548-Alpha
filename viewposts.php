@@ -40,7 +40,7 @@
 		echo "<table class='results_table'>
 			<tr class='results_firstrow'>
 				<th>Post Title</th>
-				<th>Date Posted</th>
+				<th id='date_posted'>Date Posted</th>
 				<th>Author</th>
 				<th># Replies</th>
 			</tr>";
@@ -62,11 +62,11 @@
 					$replies = 0;
 				}
 			
-				echo "<tr><td><a href='?action=viewposts&post_id=$id'>$title</a>";
+				echo "<tr id='postrow'><td><a href='?action=viewposts&post_id=$id'>$title</a>";
 				if($user_type==2) {
 					echo "<span class='delete_post'><a href='?action=delete&post_id=$id'>X</a></span>";
 				}
-				echo "</td><td>$date_posted</td><td>$posted_by</td><td>$replies</td></tr>";
+				echo "</td><td id='date_posted'>$date_posted</td><td>$posted_by</td><td>$replies</td></tr>";
 			}
 		echo "</table>";
 		}

@@ -10,8 +10,6 @@ TODO:
   => Joseph, OOPS, I(Casey) accidentally did this, meant to do the row => link, my bad
 => Add verification that post title is not blank(fix it)
   => Vajay
-=> Make row a link, rather than title(highlight on mouse over)
-  => Casey
 => Add restriction of posts in a time period
   => Vajay
 => Make reply to post functional

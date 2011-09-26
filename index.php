@@ -52,6 +52,11 @@
 				include 'viewposts.php';
 			break;
 
+      case 'viewusers':
+				echo "<p><a href='index.php'>Home</a> > ";
+        include 'viewusers.php';
+      break;
+
 			default: 
 				include "main_menu.php";
 			break;

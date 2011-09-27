@@ -1,8 +1,8 @@
+<h2>Register</h2>
 <?php
 error_reporting(-1);
 	if(isset($_POST['register'])) {
 	include 'mysql_settings.php';
-	echo "register";
 	//form was submitted, so lets process it//
 
 		//retrieving data from POST
@@ -55,51 +55,51 @@ error_reporting(-1);
 	//validate form data//
 		$errors=0;
 		if($first_name=='') {
-			echo "<p>first_name can't be blank</p>";
+			echo "<div id='alert'>first_name can't be blank</div>";
 			$errors=1;		
 		}
 		if($last_name=='') {
-			echo "<p>last name can't be blank</p>";
+			echo "<div id='alert'>last name can't be blank</div>";
 			$errors=1;		
 		}
 		if($username=='') {
-			echo "<p>username can't be blank</p>";
+			echo "<div id='alert'>username can't be blank</div>";
 			$errors=1;		
 		}
 		if($password=='') {
-			echo "<p>password can't be blank</p>";
+			echo "<div id='alert'>password can't be blank</div>";
 			$errors=1;		
 		}
 		if($confirm_password=='') {
-			echo "<p>confirm password can't be blank</p>";
+			echo "<div id='alert'>confirm password can't be blank</div>";
 			$errors=1;		
 		}
 		if($password!=$confirm_password) {
-			echo "<p>passwords don't match</p>";
+			echo "<div id='alert'>passwords don't match</div>";
 			$errors=1;
 		}
 		if($birth_month=='') {
-			echo "<p>birth month can't be blank</p>";
+			echo "<div id='alert'>birth month can't be blank</div>";
 			$errors=1;		
 		}
 		if($birth_day=='') {
-			echo "<p>birth day can't be blank</p>";
+			echo "<div id='alert'>birth day can't be blank</div>";
 			$errors=1;		
 		}
 		if($birth_year=='') {
-			echo "<p>birth year can't be blank</p>";
+			echo "<div id='alert'>birth year can't be blank</div>";
 			$errors=1;		
 		}
 		if($email=='') {
-			echo "<p>email can't be blank</p>";
+			echo "<div id='alert'>email can't be blank</div>";
 			$errors=1;		
 		}
 		if($security_question=='') {
-			echo "<p>security question can't be blank</p>";
+			echo "<div id='alert'>security question can't be blank</div>";
 			$errors=1;		
 		}
 		if($security_answer=='') {
-			echo "<p>security answer can't be blank</p>";
+			echo "<div id='alert'>security answer can't be blank</div>";
 			$errors=1;		
 		}
 		
@@ -118,14 +118,13 @@ error_reporting(-1);
 				VALUES ('$username','$password','$salt','$email','$first_name','$last_name','$bday','$street_address','$zipcode','$phone_number','0')";
 			$result = mysql_query($sql);
 			if($result) {
-				echo "<p>successfully added user</p>";
+				echo "<div id='info'>successfully added user</div>";
 			}
 			else echo "failed to add user";
 		}
 	}
 ?>
 <form action="" method="POST">
-<p>Register below</p>
 <p>First name:<br />
 <input type="text" name="first_name" value=""/></p>
 <p>Last name:<br />

@@ -44,3 +44,13 @@ a:hover {
 #date_posted {
 	width:75pt;
 }
+#alert,#info {
+  border: 2pt dashed red;
+  width: 400pt;
+  text-align: center;
+  padding: 5pt;
+  margin: 5pt;
+}
+#info {
+  border: 2pt dashed green;
+}

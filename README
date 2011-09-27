@@ -16,14 +16,10 @@ TODO:
   => Joseph
 => Make password reset function work
   => Serena
-=> Add option to create admins
-  => Wont implement via PHP, only through database == BETTER SECURITY
 => Add delete account function
   => Ethan
 => Make delete post function work
   => Ethan
-=> Make everyone an admin
-  => Casey
 => Filter out "scripts" from user input
 
 Future implementations:

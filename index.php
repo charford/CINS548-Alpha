@@ -28,10 +28,14 @@
 		
 			case 'register':
 				echo "<p><a href='index.php'>Click, to go back Home</a></p>";
-				include "register.php";
+				include 'register.php';
 			break;
 
-			case 'default':
+      case 'resetpw':
+        include 'resetpw.php';
+      break;
+
+			default:
 				include 'login.php';
 			break;
 		}

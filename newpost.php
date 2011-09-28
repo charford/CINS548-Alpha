@@ -34,7 +34,7 @@ if(isset($_POST['post_title'])) {
 
 	if($post_title!="" && $post_content!="") {
 		$sql = "INSERT INTO posts (title,content,date_posted,privacy,user_id,discussion_id,reply_id) 
-			VALUES ('$post_title','$post_content',CURDATE(),'$privacy','$user_id','$discussion_id','$reply_id')";
+			VALUES ('$post_title','$post_content',NOW(),'$privacy','$user_id','$discussion_id','$reply_id')";
 
 		$result = mysql_query($sql);
 		if($result) {

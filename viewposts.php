@@ -114,7 +114,7 @@
 					$reply_message = mysql_real_escape_string($reply_message);
 
 					$sql = "INSERT INTO posts (title,content,user_id,discussion_id,reply_id,date_posted)
-						VALUES ('$reply_title','$reply_message','$author','$discussion_id','$post_id',CURDATE())";
+						VALUES ('$reply_title','$reply_message','$author','$discussion_id','$post_id',NOW())";
 					$result = mysql_query($sql);
 					if($result) {
 						//echo "<p>Reply successful</p>";

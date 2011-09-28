@@ -31,9 +31,9 @@
 				include 'register.php';
 			break;
 
-      case 'resetpw':
-        include 'resetpw.php';
-      break;
+			case 'resetpw':
+ 				include 'resetpw.php';
+			break;
 
 			default:
 				include 'login.php';

@@ -14,7 +14,8 @@
 		}
 	}
 	else $user_type="0";	//set user to lowest privilege(view only)
-
+  
+  //if we are given a discussion id, go ahead and display topics within the discussion
 	if(isset($_POST['discussion_id']) || isset($_GET['discussion_id'])) {
 		if(isset($_POST['discussion_id'])) $discussion_id=$_POST['discussion_id'];
 		else $discussion_id=$_GET['discussion_id'];
@@ -30,7 +31,7 @@
 				$discussion_title = $row['title'];
 			}
 
-		//navigation up top
+		//display navigation up top
 		echo "<a href='?action=viewposts'>View Posts</a> > $discussion_title</p><h2>$discussion_title</h2>";
 		}
 
@@ -75,6 +76,7 @@
 	//display post details when given a post_id
 	elseif(isset($_GET['post_id'])) {
 		$post_id=$_GET['post_id'];
+
 		//sanitize
 		$post_id = stripslashes($post_id);
 		$post_id = mysql_real_escape_string($post_id);
@@ -90,6 +92,7 @@
 			$date_posted = $row['date_posted'];
 			$discussion_id = $row['discussion_id'];
 			$post_id = $row['post_id'];
+
 			//retrieve discussion_title
 			$sql = "SELECT title FROM discussions WHERE id='$discussion_id'";
 			$result = mysql_query($sql);
@@ -106,7 +109,7 @@
 					$reply_title = $_POST['reply_title'];
 					$reply_message = $_POST['reply_message'];
 					
-					//sanitize input				//there's bug here, but i can't find it
+					//sanitize input
 					$reply_title = stripslashes($reply_title);
 					$reply_message = mysql_real_escape_string($reply_message);
 
@@ -138,6 +141,24 @@
 				<p><input type='submit' name='reply' value='Reply' /> <input type='reset' value='Clear' /></p>
 				</form>
 				";
+      
+        //display reply posts
+        $sql = "SELECT * FROM posts WHERE reply_id='$post_id' ORDER BY date_posted desc";
+        $result = mysql_query($sql);
+        if($result) {
+          while ($row = mysql_fetch_array($result)) {
+            $title = $row['title'];
+            $author = $row['user_id'];
+            $id = $row['post_id'];
+            $content = $row['content'];
+            $date_posted = $row['date_posted'];
+            
+            echo "<h2>$title</h2>
+                  <p>Author: $author, posted $date_posted</p>
+                  <p>$content</p>";
+            
+          }
+        }
 		}
 	}
 	else {

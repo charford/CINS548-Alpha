@@ -162,6 +162,15 @@
 		}
 	}
 	else {
+  //admin options, add discussion if form was submitted
+  if($user_type==2) {
+    if(isset($_POST['add_discussion'])) {
+      $discussion_title = $_POST['discussion_title'];
+      $sql = "INSERT INTO discussions (title) VALUES ('$discussion_title')";
+      $result = mysql_query($sql);
+      if(!$result) echo "<p>failed to add new discussion</p>";
+    }
+  }
 	//retrieve list of discussion_names
 	$sql = "SELECT * FROM discussions ORDER BY title";
 	$result = mysql_query($sql);
@@ -175,13 +184,22 @@
 			array_push($discussions_id,$id);
 		}
 	}
-
-
 	echo "View Posts</p>
 	<h2>View Posts</h2><p>First, choose a discussion:</p>";
 		for($i=0;$i<count($discussions_id); $i++) {
 			echo "<p><a href='?action=viewposts&discussion_id=".$discussions_id[$i]."'>".$discussions_title[$i]."</a></p>";
 		}
+  //administrator options
+  if($user_type==2) {
+    echo "<h4>Add Discussion</h4>
+    <form method='post' action='?action=viewposts'>
+      <input name='discussion_title' />
+      <input type='submit' value='Create' name='add_discussion' />
+    </form>
+    </form>
+    ";
+
+  }
 	exit;
 	}
 ?>

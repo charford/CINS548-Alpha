@@ -1,6 +1,6 @@
 <h2>Register</h2>
 <?php
-error_reporting(-1);
+error_reporting(0);
 	if(isset($_POST['register'])) {
 	include 'mysql_settings.php';
 	//form was submitted, so lets process it//
@@ -105,7 +105,7 @@ error_reporting(-1);
 		
 	
 		//generate salt, and encrypt it
-		$salt = hash('sha256',date('c'));	//date and time ISO format
+		$salt = hash('sha256',date('U'));	//date and time ISO format
 	
 		//encrypt using sha256 and an encrypted salt
 		$password = hash('sha256',$password.$salt);

@@ -13,18 +13,23 @@ echo "<form action='$form_method' method='post'>";
 if($go == "1")
 {
 $user=$_POST['username'];
-$sql = "SELECT * FROM users WHERE username='$user'";
+$sql = "SELECT username,security_qts,security_ans,COUNT(*) as c FROM users WHERE username='$user'";
 	$result = mysql_query($sql);
-        if(!$result) echo "<p><a href=resetpw.php> username not in database, start again</a></p>";
         
-       else if($result) {
-			while($row = mysql_fetch_array($result))
-                            {
-			    $security_quest=$row['security_qts'];
-                            $sec_ans=$row['security_ans'];
+       	if($result) {
+		while($row = mysql_fetch_array($result))
+                {
+		    $security_quest=$row['security_qts'];
+                    $sec_ans=$row['security_ans'];
+		    $count = $row['c'];
                         
 		}
-	} ?>
+	} 
+	if($count==0) {
+        	echo "<p><a href=resetpw.php> username not in database, start again</a></p>";
+		exit;
+	}
+	?>
         <p>user:<br /><input type="text" name = "myusername " value = "<?php echo $user;?>" />
         <p>Answer the security question below:<br />
             

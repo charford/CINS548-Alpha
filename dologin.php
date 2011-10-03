@@ -1,6 +1,6 @@
 <?php
 	ob_start();
-	include 'mysql_settings.php';
+	include 'mysql_settings_read.php';
 	$index_file="index.php";
 
 	$myusername = $_POST['username'];

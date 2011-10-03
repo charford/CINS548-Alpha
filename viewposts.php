@@ -1,7 +1,13 @@
 <?php
-	include 'mysql_settings.php';
-
+  if(isset($_POST['reply'])) {
+	  include 'mysql_settings.php';
+  }
+  else if(isset($_POST['add_discussion'])) {
+	  include 'mysql_settings.php';
+  }
+  else include 'mysql_settings_read.php';
 	//find out if user is admin or not
+	//include 'mysql_settings_read.php';
 	$id = $_SESSION['myusername'];
 	$sql = "SELECT user_type FROM users WHERE username='$id'";
 	$result = mysql_query($sql);
@@ -34,7 +40,7 @@
 		//display navigation up top
 		echo "<a href='?action=viewposts'>View Posts</a> > $discussion_title</p><h2>$discussion_title</h2>";
 		}
-
+    
 		$sql = "SELECT * FROM posts WHERE discussion_id=$discussion_id AND reply_id = '0' ORDER BY date_posted desc";
 		$result = mysql_query($sql);
 		if($result) {
@@ -112,7 +118,7 @@
 					//sanitize input
 					$reply_title = stripslashes($reply_title);
 					$reply_message = mysql_real_escape_string($reply_message);
-
+        
 					$sql = "INSERT INTO posts (title,content,user_id,discussion_id,reply_id,date_posted)
 						VALUES ('$reply_title','$reply_message','$author','$discussion_id','$post_id',NOW())";
 					$result = mysql_query($sql);

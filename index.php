@@ -1,4 +1,7 @@
-<?php session_start(); ?>
+<?php 
+  session_start(); 
+  error_reporting(0);
+?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,7 +12,7 @@
 <?php	
 	if(isset($_SESSION['logged_in'])) $logged_in = $_SESSION['logged_in'];
 	else $logged_in=0;
-	
+
 	if(isset($_GET['action'])) $action = $_GET['action'];
 	else $action="login";
 

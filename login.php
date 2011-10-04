@@ -8,4 +8,5 @@
 <input type="submit" value="Login" /> <input type="reset" value="reset" />
 <p>Not registered? <a href="index.php?action=register">Sign up!</a></p>
 <p>Forgot password? <a href="index.php?action=resetpw">Click to reset</a></p>
+<p><a href="index.php?action=viewposts">View Public Posts</a></p>
 </form>

@@ -40,8 +40,10 @@
 		//display navigation up top
 		echo "<a href='?action=viewposts'>View Posts</a> > $discussion_title</p><h2>$discussion_title</h2>";
 		}
-    
-		$sql = "SELECT * FROM posts WHERE discussion_id=$discussion_id AND reply_id = '0' ORDER BY date_posted desc";
+    //display all posts, if logged in, else show only public posts
+    if($logged_in==1) $sql = "SELECT * FROM posts WHERE discussion_id=$discussion_id AND reply_id = '0' ORDER BY date_posted desc";
+    //display public only posts
+    else $sql = "SELECT * FROM posts WHERE discussion_id=$discussion_id AND reply_id = '0' AND privacy=0 ORDER BY date_posted desc";
 		$result = mysql_query($sql);
 		if($result) {
 		echo "<table class='results_table'>
@@ -129,6 +131,7 @@
 					
 				}
 			}
+      else echo "<script>alert('You must be logged in to post reply!')</script>";
 
 			echo "<a href='?action=viewposts'>View Posts</a> > 
 				<a href='?action=viewposts&discussion_id=$discussion_id'>$discussion_title</a> > $post_title</p>

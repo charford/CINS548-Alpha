@@ -37,6 +37,11 @@
 			case 'resetpw':
  				include 'resetpw.php';
 			break;
+  
+      case 'viewposts':
+				echo "<p><a href='index.php'>Click, to go back Home</a></p>";
+        include 'viewposts.php';
+      break;
 
 			default:
 				include 'login.php';

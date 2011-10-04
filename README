@@ -10,10 +10,6 @@ TODO:
   => Vajay
 => Add restriction of posts in a time period
   => Vajay
-=> Make password reset function work
-  => Serena
-=> Add delete account function
-  => Ethan
 => Make delete post function work
   => Ethan
 => Filter out "scripts" from user input

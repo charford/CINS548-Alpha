@@ -1,4 +1,5 @@
 mysql_settings.php
+mysql_settings_read.php
 .bundle
 db/*.sqlite3*
 log/*.log

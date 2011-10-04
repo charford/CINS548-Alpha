@@ -69,6 +69,11 @@
         include 'viewusers.php';
       break;
 
+      case 'edituser':
+				echo "<p><a href='index.php'>Home</a> > ";
+        include 'edituser.php';
+      break;
+
 			default: 
 				include "main_menu.php";
 			break;

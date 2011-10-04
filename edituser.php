@@ -27,7 +27,6 @@
   }
 ?>
 Edit My User Info</p>
-<?php echo $b_month; ?>
 <form action="" method="POST">
 <p>First name:<br />
 <input type="text" name="first_name" value="<?php echo $first_name; ?>"/></p>

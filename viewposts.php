@@ -100,6 +100,12 @@
 			$date_posted = $row['date_posted'];
 			$discussion_id = $row['discussion_id'];
 			$post_id = $row['post_id'];
+      $privacy = $row['privacy'];
+
+      if($logged_in==0 && $privacy!=0) {
+        echo "<script>alert('You must be logged in to view this post.');</script>";
+        exit;
+      }
 
 			//retrieve discussion_title
 			$sql = "SELECT title FROM discussions WHERE id='$discussion_id'";

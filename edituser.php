@@ -69,6 +69,10 @@ Edit My User Info</p>
       }
     }
   }
+  else { 
+    echo "<script>alert('You must be logged in for this function, newb.')</script>";
+    exit; 
+  }
 ?>
 <form action="" method="POST">
 <p>First name:<br />

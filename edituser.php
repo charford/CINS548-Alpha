@@ -4,11 +4,12 @@ Edit My User Info</p>
   //based on the current user logged in
   if($logged_in==1) {
     if(isset($_POST['editusersubmit'])) {
+      
       include 'mysql_settings.php';
       //form was submitted, lets update the database
       $username = $_SESSION['myusername'];
       $f_name = $_POST['first_name'];
-      $l_name = $_POST['first_name'];
+      $l_name = $_POST['last_name'];
       $email = $_POST['email'];
       $street_address = $_POST['street_address'];
       $zipcode = $_POST['zipcode'];
@@ -33,15 +34,26 @@ Edit My User Info</p>
       $b_day = mysql_real_escape_string($b_day);
       $b_year = stripslashes($b_year);
       $b_year = mysql_real_escape_string($b_year);
+  
+      $first_name=$f_name;
+      $last_name=$l_name;
+      $birth_day=$b_day;
+      $birth_month=$b_month;
+      $birth_year=$b_year;
+      //check for errors in form
+      include 'validate.php';
+
+      if($errors==0) {
 
       //update tables in database with new user info
       $sql = "UPDATE users SET f_name='$f_name', l_name='$l_name', email='$email', street_address='$street_address', zipcode='$zipcode'
               WHERE username='$username'";
-      echo $sql;
       $result = mysql_query($sql);
       if($result) echo "<p id='info'>Successfully updated user info.</p>";
       else echo "<p id='alert'>An error occurred.</p>";
       exit;
+      }
+      else echo "<p id='alert'>An error occurred while validating the form data.</p>";
     }
     else {
       //form not submitted yet, retrieve user details to populate form below

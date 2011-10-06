@@ -35,6 +35,18 @@ Edit My User Info</p>
       $b_year = stripslashes($b_year);
       $b_year = mysql_real_escape_string($b_year);
   
+    $first_name = strip_tags($first_name);
+    $last_name = strip_tags($last_name);
+    $username = strip_tags($username);
+    $b_month = strip_tags($b_month);
+    $b_day = strip_tags($b_day);
+    $b_year = strip_tags($b_year);
+    $email = strip_tags($email);
+    $street_address = strip_tags($street_address);
+    $zipcode = strip_tags($zipcode);
+
+		$bday=$birth_year."-".$birth_month."-".$birth_day;
+  
       $first_name=$f_name;
       $last_name=$l_name;
       $birth_day=$b_day;

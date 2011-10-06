@@ -125,7 +125,12 @@
 					
 					//sanitize input
 					$reply_title = stripslashes($reply_title);
+					$reply_title = mysql_real_escape_string($reply_title);
+					$reply_message = stripslashes($reply_message);
 					$reply_message = mysql_real_escape_string($reply_message);
+          $reply_title = strip_tags($reply_title);
+          $reply_message = strip_tags($reply_message);
+          
         
 					$sql = "INSERT INTO posts (title,content,user_id,discussion_id,reply_id,date_posted)
 						VALUES ('$reply_title','$reply_message','$author','$discussion_id','$post_id',NOW())";

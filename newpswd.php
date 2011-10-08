@@ -6,7 +6,8 @@ session_start();
 
 include 'mysql_settings.php';
 $index_file="index.php";
-$thisusername = $_POST['user'];
+//$thisusername = $_POST['user'];
+$thisusername = $_SESSION['myusername'];
 $password = $_POST['password'];
 $confirm_password = $_POST['confirm_password'];
 if($_POST['security_answer']!='')
@@ -27,7 +28,6 @@ if($sec!=$sec_ans)
 else{?>
 
 <form action="" method="POST">
-<input type="hidden" name="user" value="<?php echo $thisusername;?>"></input>
 <p>Enter the new Password:<br />
 <input type="password" name="password" value="" /></p>
 <p>Confirm Password:<br />

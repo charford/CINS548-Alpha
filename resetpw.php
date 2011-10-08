@@ -20,7 +20,7 @@ $sql = "SELECT username,security_qts,security_ans,COUNT(*) as c FROM users WHERE
 		while($row = mysql_fetch_array($result))
                 {
 		    $security_quest=$row['security_qts'];
-                    $sec_ans=$row['security_ans'];
+        $sec_ans=$row['security_ans'];
 		    $count = $row['c'];
                         
 		}
@@ -29,8 +29,9 @@ $sql = "SELECT username,security_qts,security_ans,COUNT(*) as c FROM users WHERE
         	echo "<p><a href=resetpw.php> username not in database, start again</a></p>";
 		exit;
 	}
+  else $_SESSION['myusername'] = $user;
 	?>
-        <p>user:<br /><input type="text" name = "myusername " value = "<?php echo $user;?>" />
+        <p>user:<br /><input type="text" name = "myusername" value = "<?php echo $user;?>" />
         <p>Answer the security question below:<br />
             
 <?php echo $security_quest; ?>

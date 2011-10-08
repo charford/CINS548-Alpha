@@ -6,13 +6,10 @@ URL: http://www.caseyharford.com/cins548
 
 TODO:
 
-=> Add verification that post title is not blank(fix it)
-  => Vajay
 => Add restriction of posts in a time period
   => Vajay
 => Make delete post function work
   => Ethan
-=> Filter out "scripts" from user input
 
 Future implementations:
 => Deactivate/Ban account rather than delete

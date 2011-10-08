@@ -32,7 +32,7 @@ if(isset($_POST['post_title'])) {
 	$reply_id = mysql_real_escape_string($reply_id);
 	$user_id = mysql_real_escape_string($user_id);
 
-	if($post_title!="" && $post_content!="") {
+	if(trim($post_title)!="" && trim($post_content)!="") {
 		$sql = "INSERT INTO posts (title,content,date_posted,privacy,user_id,discussion_id,reply_id) 
 			VALUES ('$post_title','$post_content',NOW(),'$privacy','$user_id','$discussion_id','$reply_id')";
 

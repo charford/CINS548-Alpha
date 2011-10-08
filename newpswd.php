@@ -45,6 +45,7 @@ else{?>
 <input type="password" name="password" value="" /></p>
 <p>Confirm Password:<br />
 <input type="password" name="confirm_password" value="" /></p>
+<input type="hidden" name="security_answer" value="<?php echo $sec; ?>" />
 <input type="submit" name="submit"/>   
 
 <?php }

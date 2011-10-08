@@ -1,23 +1,23 @@
 <?php
 	//validate form data//
 		$errors=0;
-		if($first_name=='') {
+		if(trim($first_name)=='') {
 			echo "<div id='alert'>first_name can't be blank</div>";
 			$errors=1;		
 		}
-		if($last_name=='') {
+		if(trim($last_name)=='') {
 			echo "<div id='alert'>last name can't be blank</div>";
 			$errors=1;		
 		}
-		if($street_address=='') {
+		if(trim($street_address)=='') {
 			echo "<div id='alert'>street address can't be blank</div>";
 			$errors=1;		
 		}
-		if($username=='') {
+		if(trim($username)=='') {
 			echo "<div id='alert'>username can't be blank</div>";
 			$errors=1;		
 		}
-		if($action=='register' && $password=='') {
+		if($action=='register' && trim($password)=='') {
 			echo "<div id='alert'>password can't be blank</div>";
 			$errors=1;		
 		}
@@ -25,7 +25,7 @@
       echo "<div id='alert'>password must be at least 7 chars long with one lower-case, one upper-case char, and one digit</div>";
       $errors=1;
     }
-		if($action=='register' && $confirm_password=='') {
+		if($action=='register' && trim($confirm_password)=='') {
 			echo "<div id='alert'>confirm password can't be blank</div>";
 			$errors=1;		
 		}
@@ -33,19 +33,19 @@
 			echo "<div id='alert'>passwords don't match</div>";
 			$errors=1;
 		}
-		if($birth_month=='') {
+		if(trim($birth_month)=='') {
 			echo "<div id='alert'>birth month can't be blank</div>";
 			$errors=1;		
 		}
-		if($birth_day=='') {
+		if(trim($birth_day)=='') {
 			echo "<div id='alert'>birth day can't be blank</div>";
 			$errors=1;		
 		}
-		if($birth_year=='') {
+		if(trim($birth_year)=='') {
 			echo "<div id='alert'>birth year can't be blank</div>";
 			$errors=1;		
 		}
-		if($email=='') {
+		if(trim($email)=='') {
 			echo "<div id='alert'>email can't be blank</div>";
 			$errors=1;		
 		}
@@ -53,11 +53,11 @@
       echo "<div id='alert'>email address format is invalid: x@y.z</div>";
       $errors=1;
     }
-		if($action=='register' && $security_question=='') {
+		if($action=='register' && trim($security_question)=='') {
 			echo "<div id='alert'>security question can't be blank</div>";
 			$errors=1;		
 		}
-		if($action=='register' && $security_answer=='') {
+		if($action=='register' && trim($security_answer)=='') {
 			echo "<div id='alert'>security answer can't be blank</div>";
 			$errors=1;		
 		}

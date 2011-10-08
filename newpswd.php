@@ -18,8 +18,21 @@ $password = stripslashes($password);
 $confirm_password = stripslashes($confirm_password);
 $password = mysql_real_escape_string($password);
 $confirm_password = mysql_real_escape_string($confirm_password);
-$sec_ans=$_POST['sec_ans'];
+
+//THIS CAN'T BE PASSED LIKE THIS!
+//$sec_ans=$_POST['sec_ans'];
 $errors=0;
+
+//BUG FIX:
+  $sql = "SELECT security_ans FROM users WHERE username = '$thisusername'";
+  $result = mysql_query($sql);
+  if($result) {
+    $row = mysql_fetch_assoc($result);
+    $sec_ans = $row['security_ans'];
+  }
+  //can't find an answer, ERROR
+  else $errors=1;
+
 
  
 if($sec!=$sec_ans)

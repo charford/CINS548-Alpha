@@ -13,14 +13,13 @@ echo "<form action='$form_method' method='post'>";
 if($go == "1")
 {
 $user=$_POST['username'];
-$sql = "SELECT username,security_qts,security_ans,COUNT(*) as c FROM users WHERE username='$user'";
+$sql = "SELECT username,security_qts,COUNT(*) as c FROM users WHERE username='$user'";
 	$result = mysql_query($sql);
         
        	if($result) {
 		while($row = mysql_fetch_array($result))
                 {
 		    $security_quest=$row['security_qts'];
-        $sec_ans=$row['security_ans'];
 		    $count = $row['c'];
                         
 		}
@@ -37,7 +36,6 @@ $sql = "SELECT username,security_qts,security_ans,COUNT(*) as c FROM users WHERE
 <?php echo $security_quest; ?>
 <input type="text" name="security_answer" value="" />
 <input type="hidden" name="user" value="<?php echo $user;?>">
-<input type="hidden" name="sec_ans" value="<?php echo $sec_ans;?>">
 <input type="submit" name="submitButtonName" border="0"></p>
 <?php }
 else

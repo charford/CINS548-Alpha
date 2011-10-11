@@ -25,6 +25,7 @@ if(isset($_POST['post_title'])) {
 	$discussion_id = stripslashes($discussion_id);
 	$reply_id = stripslashes($reply_id);
 	$user_id = stripslashes($user_id);
+
 	$post_title = mysql_real_escape_string($post_title);
 	$post_content = mysql_real_escape_string($post_content);
 	$privacy = mysql_real_escape_string($privacy);

@@ -61,6 +61,11 @@ if($confirm_password=='') {
 	echo "<p>confirm password can't be blank</p>";
 	$errors=2;		
     }
+elseif (!preg_match("/^(?=^.{7,}$)((?=.*[A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z]))^.*$/", $password))
+{
+        echo "<div id='alert'>password must be at least 7 chars long with one lower-case, one upper-case char, and one digit</div>";
+        $errors=1;
+    }
 if($password!=$confirm_password) {
     echo "<p>passwords don't match</p>";
     $errors=3;

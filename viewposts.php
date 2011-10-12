@@ -90,10 +90,15 @@
 		$post_id = mysql_real_escape_string($post_id);
 
 		//retrieve post content
-		$sql = "SELECT * FROM posts WHERE post_id='$post_id'";
+		$sql = "SELECT *, COUNT(*) as valid FROM posts WHERE post_id='$post_id'";
 		$result = mysql_query($sql);
 		if($result) {
 			$row = mysql_fetch_assoc($result);
+      $valid = $row['valid'];
+      if($valid==0) {
+        echo "<p>Invalid post requested</p>";
+        exit;
+      }
 			$post_title = $row['title'];
 			$post_content = $row['content'];
 			$author = $row['user_id'];

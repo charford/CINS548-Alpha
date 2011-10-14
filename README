@@ -13,3 +13,24 @@ TODO:
 
 Future implementations:
 => Deactivate/Ban account rather than delete
+
+Round 2 TODO:
+++=>clean the database from all users
+==>remove all extraneous posts
+=>use mod rewrite so apache does the routing hidden from users
+=>change statement that username does not exist if problem that they do not match
+=>implement allow change security question
+=>hash security answer
+=>disable url scripting  
+  => Ethan started
+=>security question cooldown
+=>switch to email and password for access control
+=>hash password client side?
+=>add a prefix to table names SSDF_?
+
+
+cool future implements
+=>add log in with facebook 
+=>beat Tim until he installs SSL certificate
+=>make our page look pretty... CSS
+=>reorganize how the replies go to the bottom

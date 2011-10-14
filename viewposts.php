@@ -29,6 +29,7 @@
 		//sanitize
 		$discussion_id=stripslashes($discussion_id);
 		$discussion_id=mysql_real_escape_string($discussion_id);
+    $discussion_id=strip_tags($discussion_id);
 
 		$sql = "SELECT title FROM discussions WHERE id='$discussion_id'";
 		$result = mysql_query($sql);

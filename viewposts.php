@@ -31,16 +31,20 @@
 		$discussion_id=mysql_real_escape_string($discussion_id);
     $discussion_id=strip_tags($discussion_id);
 
-		$sql = "SELECT title FROM discussions WHERE id='$discussion_id'";
-		$result = mysql_query($sql);
+    if($stmt = $mysqli->prepare("SELECT title FROM discussions WHERE id=?")) {
+      $stmt->bind_param("i",$discussion_id);
+      $stmt->execute();
+      $result=$stmt->get_result();
+    }
 		if($result) {
-			while ($row = mysql_fetch_array($result)) {
+			while ($row = $result->fetch_array(MYSQI_BOTH)) {
 				$discussion_title = $row['title'];
 			}
+		  echo "<a href='?action=viewposts'>View Posts</a> > $discussion_title</p><h2>$discussion_title</h2>";
 
-		//display navigation up top
-		echo "<a href='?action=viewposts'>View Posts</a> > $discussion_title</p><h2>$discussion_title</h2>";
 		}
+    $stmt->close();
+
     //display all posts, if logged in, else show only public posts
     if($logged_in==1) $sql = "SELECT * FROM posts WHERE discussion_id=$discussion_id AND reply_id = '0' ORDER BY date_posted desc";
     //display public only posts
@@ -188,33 +192,32 @@
 		}
 	}
 	else {
-  //admin options, add discussion if form was submitted
-  if($user_type==2) {
-    if(isset($_POST['add_discussion'])) {
-      $discussion_title = $_POST['discussion_title'];
-      $sql = "INSERT INTO discussions (title) VALUES ('$discussion_title')";
-      $result = mysql_query($sql);
-      if(!$result) echo "<p>failed to add new discussion</p>";
+	  echo "View Posts</p>
+	  <h2>View Posts</h2><p>First, choose a discussion:</p>";
+    //admin options, add discussion if form was submitted
+    if($user_type==2) {
+      if(isset($_POST['add_discussion'])) {
+        $discussion_title = $_POST['discussion_title'];
+        $sql = "INSERT INTO discussions (title) VALUES ('$discussion_title')";
+        $result = mysql_query($sql);
+        if(!$result) echo "<p>failed to add new discussion</p>";
+      }
     }
-  }
-	//retrieve list of discussion_names
-	$sql = "SELECT * FROM discussions ORDER BY title";
-	$result = mysql_query($sql);
-	$discussions_title = array();
-	$discussions_id = array();
-	if($result) {
-		while ($row = mysql_fetch_array($result)) {
-			$title = $row['title'];
-			$id = $row['id'];
-			array_push($discussions_title,$title);
-			array_push($discussions_id,$id);
-		}
-	}
-	echo "View Posts</p>
-	<h2>View Posts</h2><p>First, choose a discussion:</p>";
-		for($i=0;$i<count($discussions_id); $i++) {
-			echo "<p><a href='?action=viewposts&discussion_id=".$discussions_id[$i]."'>".$discussions_title[$i]."</a></p>";
-		}
+	  //retrieve list of discussion_names
+    $mysqli = new mysqli('132.241.49.7','dbadmin','QjpXfePqGNDfvHB79zYwand5','cins548');
+	  $discussions_title = array();
+	  $discussions_id = array();
+    if($result = $mysqli->query("SELECT * FROM discussions ORDER BY title")){
+      while($row = $result->fetch_object()) {
+			  $title = $row->title;
+			  $id = $row->id;
+			  array_push($discussions_title,$title);
+			  array_push($discussions_id,$id);
+			  echo "<p><a href='?action=viewposts&discussiaon_id=$id'>$title</a></p>";
+      }
+    }
+    $stmt->close();
+
   //administrator options
   if($user_type==2) {
     echo "<h4>Add Discussion</h4>

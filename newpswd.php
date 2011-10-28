@@ -1,93 +1,59 @@
 <?php
-error_reporting(0);
-session_start();
+
+        session_start();
+	include 'mysql_settings.php';
+        $index_file="index.php";
+               
+$go = $_POST['go'];
+if($go!=1) $form_method="resetpw.php";
+else $form_method="newpswd.php";
+echo "<form action='$form_method' method='post'>";
+
+
+if($go == "1")
+{
+$user=$_POST['username'];
+$sql = "SELECT username,security_qts,security_qts1,COUNT(*) as c FROM users WHERE username='$user'";
+	$result = mysql_query($sql);
+        
+       	if($result) {
+		while($row = mysql_fetch_array($result))
+                {
+		    $security_quest=$row['security_qts'];
+                    $security_quest1=$row['security_qts1'];
+		    $count = $row['c'];
+                        
+		}
+	} 
+	if($count==0) {
+        	echo "<p><a href=resetpw.php>start again</a></p>";
+		exit;
+	}
+  else $_SESSION['myusername'] = $user;
+	?>
+        <p>user:<br /><input type="text" name = "myusername" value = "<?php echo $user;?>" />
+        <p>Answer the security questions below:<br />
+            
+<?php echo $security_quest; ?>
+<input type="text" name="security_answer" value="" /><br/>
+<?php echo $security_quest1; ?>
+<input type="text" name="security_answer1" value="" />
+<input type="hidden" name="user" value="<?php echo $user;?>">
+<input type="submit" name="submitButtonName" border="0"></p>
+<?php }
+else
+{
+    ?>
+    <p>Login below</p>
+<p>Username:<br />
+<input type="text" name="username" value="" /></p>
+<input type="hidden" name="go" value="1" border="0"><input type="submit" name="submitButtonName" border="0">
+
+    <?php
+}
 ?>
- 
+
 <?php
 
-include 'mysql_settings.php';
-$index_file="index.php";
-//$thisusername = $_POST['user'];
-$thisusername = $_SESSION['myusername'];
-$password = $_POST['password'];
-$confirm_password = $_POST['confirm_password'];
-if($_POST['security_answer']!='')
-$sec=$_POST['security_answer'];
-$error= 0;
 
-$password = stripslashes($password);
-$confirm_password = stripslashes($confirm_password);
-$password = mysql_real_escape_string($password);
-$confirm_password = mysql_real_escape_string($confirm_password);
-
-//THIS CAN'T BE PASSED LIKE THIS!
-//$sec_ans=$_POST['sec_ans'];
-$errors=0;
-
-//BUG FIX:
-  $sql = "SELECT security_ans FROM users WHERE username = '$thisusername'";
-  $result = mysql_query($sql);
-  if($result) {
-    $row = mysql_fetch_assoc($result);
-    $sec_ans = $row['security_ans'];
-  }
-  //can't find an answer, ERROR
-  else $errors=1;
-
-
- 
-if($sec!=$sec_ans)
-    echo "<p> <a href= resetpw.php> Wrong security answer, click to go to reset page</a></p>";
-
-else{?>
-
-<form action="" method="POST">
-<p>Enter the new Password:<br />
-<input type="password" name="password" value="" /></p>
-<p>Confirm Password:<br />
-<input type="password" name="confirm_password" value="" /></p>
-<input type="hidden" name="security_answer" value="<?php echo $sec; ?>" />
-<input type="submit" name="submit"/>   
-
-<?php }
-
-if($sec==$sec_ans && isset($_POST['submit'])){
-    
-  
-    if($password=='') {
- echo "<p>password can't be blank</p>";
-	$errors=1;		
-    }
-if($confirm_password=='') {
-	echo "<p>confirm password can't be blank</p>";
-	$errors=2;		
-    }
-elseif (!preg_match("/^(?=^.{7,}$)((?=.*[A-Za-z0-9])(?=.*[A-Z])(?=.*[a-z]))^.*$/", $password))
-{
-        echo "<div id='alert'>password must be at least 7 chars long with one lower-case, one upper-case char, and one digit</div>";
-        $errors=1;
-    }
-if($password!=$confirm_password) {
-    echo "<p>passwords don't match</p>";
-    $errors=3;
-    }
-        $salt = hash('sha256',date('c'));	//date and time ISO format
-        //encrypt using sha256 and an encrypted salt
-        $password = hash('sha256',$password.$salt);
-        if($errors==0) {
-			//insert into database
-			$sql = "update users set password='$password' , salt='$salt' where (users.username='$thisusername')";	
-			$result = mysql_query($sql);
-                        echo "done";
-                  	if($result) {
-				echo "<p>successfully changed password</p>";
-                                echo "<p><a href='index.php'>Click, to go back Home</a></p>";
-			}
-			else die('Invalid query: '. $sql . mysql_error());//echo "failed to add user";
-		}
-    }
-
-
-
-    
-    ?>
+?>

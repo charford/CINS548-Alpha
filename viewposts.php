@@ -34,8 +34,11 @@
     if($stmt = $mysqli->prepare("SELECT title FROM discussions WHERE id=17")) {
       //$stmt->bind_param("i",$discussion_id);
       $stmt->execute();
-      echo "rows: ".$stmt->num_rows;
+      while ($stmt->fetch()) {
+         
+      }
     }
+    
     
 		  echo "<a href='?action=viewposts'>View Posts</a> > "; 
     /*

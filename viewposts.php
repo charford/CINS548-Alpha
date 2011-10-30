@@ -31,11 +31,23 @@
 		$discussion_id=mysql_real_escape_string($discussion_id);
     $discussion_id=strip_tags($discussion_id);
 
-    if($stmt = $mysqli->prepare("SELECT title FROM discussions WHERE id=?")) {
-      $stmt->bind_param("i",$discussion_id);
+    if($stmt = $mysqli->prepare("SELECT title FROM discussions WHERE id=17")) {
+      //$stmt->bind_param("i",$discussion_id);
       $stmt->execute();
-      $result=$stmt->get_result();
+      echo "rows: ".$stmt->num_rows;
     }
+    
+		  echo "<a href='?action=viewposts'>View Posts</a> > "; 
+    /*
+    if($result) {
+      while($row=$result->fetch()) {
+        //$discussion_title = $row['title'];
+      }
+    }
+    */
+      echo "$discussion_title</p><h2>$discussion_title</h2>";
+    
+    /*
 		if($result) {
 			while ($row = $result->fetch_array(MYSQI_BOTH)) {
 				$discussion_title = $row['title'];
@@ -43,7 +55,9 @@
 		  echo "<a href='?action=viewposts'>View Posts</a> > $discussion_title</p><h2>$discussion_title</h2>";
 
 		}
+    */
     $stmt->close();
+    
 
     //display all posts, if logged in, else show only public posts
     if($logged_in==1) $sql = "SELECT * FROM posts WHERE discussion_id=$discussion_id AND reply_id = '0' ORDER BY date_posted desc";
@@ -213,7 +227,7 @@
 			  $id = $row->id;
 			  array_push($discussions_title,$title);
 			  array_push($discussions_id,$id);
-			  echo "<p><a href='?action=viewposts&discussiaon_id=$id'>$title</a></p>";
+			  echo "<p><a href='?action=viewposts&discussion_id=$id'>$title</a></p>";
       }
     }
     $stmt->close();

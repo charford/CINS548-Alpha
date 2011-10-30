@@ -213,11 +213,14 @@
 	  <h2>View Posts</h2><p>First, choose a discussion:</p>";
     //admin options, add discussion if form was submitted
     if($user_type==2) {
+      $mysqli = new mysqli('132.241.49.7','dbadmin','QjpXfePqGNDfvHB79zYwand5','cins548');
       if(isset($_POST['add_discussion'])) {
         $discussion_title = $_POST['discussion_title'];
-        $sql = "INSERT INTO discussions (title) VALUES ('$discussion_title')";
-        $result = mysql_query($sql);
-        if(!$result) echo "<p>failed to add new discussion</p>";
+        
+        if($stmt = $mysqli->prepare("INSERT INTO discussions (title) VALUES ('$discussion_title')")) {
+          $stmt->bind_param("s",$discussion_title);
+          $stmt->execute();
+        }
       }
     }
 	  //retrieve list of discussion_names

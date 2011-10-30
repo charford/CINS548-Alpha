@@ -211,29 +211,30 @@
 	else {
 	  echo "View Posts</p>
 	  <h2>View Posts</h2><p>First, choose a discussion:</p>";
+
     //admin options, add discussion if form was submitted
     if($user_type==2) {
       if(isset($_POST['add_discussion'])) {
+        $mysqli = new mysqli('132.241.49.7','dbadmin','QjpXfePqGNDfvHB79zYwand5','cins548');
         $discussion_title = $_POST['discussion_title'];
-        $sql = "INSERT INTO discussions (title) VALUES ('$discussion_title')";
-        $result = mysql_query($sql);
-        if(!$result) echo "<p>failed to add new discussion</p>";
+        if($stmt = $mysqli->prepare("INSERT INTO discussions (title) VALUES (?)")) {
+          $stmt->bind_param("s",$discussion_title);
+          $stmt->execute();
+          $stmt->close();
+        }
+        $mysqli->close();
       }
     }
+
 	  //retrieve list of discussion_names
     $mysqli = new mysqli('132.241.49.7','dbadmin','QjpXfePqGNDfvHB79zYwand5','cins548');
-	  $discussions_title = array();
-	  $discussions_id = array();
     if($result = $mysqli->query("SELECT * FROM discussions ORDER BY title")){
       while($row = $result->fetch_object()) {
 			  $title = $row->title;
 			  $id = $row->id;
-			  array_push($discussions_title,$title);
-			  array_push($discussions_id,$id);
 			  echo "<p><a href='?action=viewposts&discussion_id=$id'>$title</a></p>";
       }
     }
-    $stmt->close();
 
   //administrator options
   if($user_type==2) {

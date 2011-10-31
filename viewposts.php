@@ -69,12 +69,17 @@
 
       //get rows of data
 			while($stmt->fetch()) {
-				$sql = "SELECT count(*) as count FROM posts WHERE reply_id='$id'";
-				$replies_result = mysql_query($sql);
-				if($replies_result) {
-					$row = mysql_fetch_assoc($replies_result);
-					$replies = $row['count'];
-				}
+        $mysqli2 = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
+        
+				$sql = "SELECT count(*) as count FROM posts WHERE reply_id=?";
+        if($stmt = $mysqli2->prepare($sql)) {
+          $stmt->bind_param("i",$id);
+          $stmt->execute();
+          $stmt->bind_result($replies);
+          while($stmt->fetch()) {
+            //useless comment
+          }
+        }
 				else {
 					$replies = 0;
 				}

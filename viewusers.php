@@ -31,7 +31,7 @@ include 'mysql_settings.php';
             </tr>";
     
     //get user info from database
-    $sql = "SELECT username,email,f_name,l_name,bday,street_address,zipcode,phone_num,user_type FROM users ORDER BY username";
+    $sql = "SELECT username,email,f_name,l_name,bday,street_address,zipcode,user_type FROM users ORDER BY username";
     $result = mysql_query($sql);
     
     if($result) {

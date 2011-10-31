@@ -17,6 +17,8 @@ error_reporting(0);
 		$email = $_POST['email'];
 		$security_question = $_POST['security_question'];
 		$security_answer = $_POST['security_answer'];
+                $security_question1 = $_POST['security_question1'];
+		$security_answer1 = $_POST['security_answer1'];
 		$street_address = $_POST['street_address'];
 		$zipcode = $_POST['zipcode'];
 	//sanitize the data//
@@ -33,6 +35,8 @@ error_reporting(0);
 		$email = stripslashes($email);
 		$security_question = stripslashes($security_question);
 		$security_answer = stripslashes($security_answer);
+                $security_question1 = stripslashes($security_question1);
+		$security_answer1 = stripslashes($security_answer1);
 		$street_address = stripslashes($street_address);
 		$zipcode = stripslashes($zipcode);
 
@@ -48,6 +52,8 @@ error_reporting(0);
 		$email = mysql_real_escape_string($email);
 		$security_question = mysql_real_escape_string($security_question);
 		$security_answer = mysql_real_escape_string($security_answer);
+                $security_question1 = mysql_real_escape_string($security_question1);
+		$security_answer1 = mysql_real_escape_string($security_answer1);
 		$street_address = mysql_real_escape_string($street_address);
 		$zipcode = mysql_real_escape_string($zipcode);
   
@@ -60,6 +66,8 @@ error_reporting(0);
     $email = strip_tags($email);
     $security_question = strip_tags($security_question);
     $security_answer = strip_tags($security_answer);
+    $security_question1 = strip_tags($security_question1);
+    $security_answer1 = strip_tags($security_answer1);
     $street_address = strip_tags($street_address);
     $zipcode = strip_tags($zipcode);
 
@@ -67,19 +75,19 @@ error_reporting(0);
 
 	//validate form data//
     include 'validate.php';
-	
+
 		//generate salt, and encrypt it
 		$salt = hash('sha256',date('U'));	//date and time ISO format
-	
+
 		//encrypt using sha256 and an encrypted salt
 		$password = hash('sha256',$password.$salt);
 
 		//echo "$password";
-		
+
 		if($errors==0) {
 			//insert into database
 			$sql = "INSERT INTO users 
-				VALUES ('$username','$password','$salt','$email','$first_name','$last_name','$bday','$street_address','$zipcode','0','$security_question','$security_answer')";
+				VALUES ('$username','$password','$salt','$email','$first_name','$last_name','$bday','$street_address','$zipcode','0','$security_question','$security_answer','$security_question1','$security_answer1')";
 			$result = mysql_query($sql);
 			if($result) {
 				echo "<div id='info'>successfully added user</div>";
@@ -128,9 +136,13 @@ error_reporting(0);
 <input type="text" name="street_address" value="" /></p>
 <p>Zip code:<br />
 <input type="text" name="zipcode" value="" /></p>
-<p>Security question:<br />
+<p>First Security question:<br />
 <input type="text" name="security_question" value="" /></p>
 <p>Security answer:<br />
 <input type="text" name="security_answer" value="" /></p>
+<p>Second Security question:<br />
+<input type="text" name="security_question1" value="" /></p>
+<p>Security answer:<br />
+<input type="text" name="security_answer1" value="" /></p>
 <input type="submit" name="register" value="Register" /> <input type="reset" value="reset" />
 </form>

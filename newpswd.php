@@ -13,6 +13,8 @@ $password = $_POST['password'];
 $confirm_password = $_POST['confirm_password'];
 if($_POST['security_answer']!='')
 $sec=$_POST['security_answer'];
+if($_POST['security_answer1']!='')
+$sec1=$_POST['security_answer1'];
 $error= 0;
 
 $password = stripslashes($password);
@@ -25,18 +27,19 @@ $confirm_password = mysql_real_escape_string($confirm_password);
 $errors=0;
 
 //BUG FIX:
-  $sql = "SELECT security_ans FROM users WHERE username = '$thisusername'";
+  $sql = "SELECT security_ans,security_ans1 FROM users WHERE username = '$thisusername'";
   $result = mysql_query($sql);
   if($result) {
     $row = mysql_fetch_assoc($result);
     $sec_ans = $row['security_ans'];
+    $sec_ans1 = $row['security_ans1'];
   }
   //can't find an answer, ERROR
   else $errors=1;
-
+//echo $sec1;
 
  
-if($sec!=$sec_ans)
+if($sec!=$sec_ans|| $sec1!=$sec_ans1)
     echo "<p> <a href= resetpw.php> Wrong security answer, click to go to reset page</a></p>";
 
 else{?>
@@ -47,6 +50,7 @@ else{?>
 <p>Confirm Password:<br />
 <input type="password" name="confirm_password" value="" /></p>
 <input type="hidden" name="security_answer" value="<?php echo $sec; ?>" />
+<input type="hidden" name="security_answer1" value="<?php echo $sec1; ?>" />
 <input type="submit" name="submit"/>   
 
 <?php }

@@ -152,15 +152,13 @@
           $reply_title = strip_tags($reply_title);
           $reply_message = strip_tags($reply_message);
           
-        
-					$sql = "INSERT INTO posts (title,content,user_id,discussion_id,reply_id,date_posted)
-						VALUES ('$reply_title','$reply_message','$author','$discussion_id','$post_id',NOW())";
-					$result = mysql_query($sql);
-					if($result) {
-						//echo "<p>Reply successful</p>";
-					}
+          $mysqli2 = new mysqli('132.241.49.7',$admin_username,$admin_password,'cins548');
+					$sql = "INSERT INTO posts (title,content,user_id,discussion_id,reply_id,date_posted) VALUES (?,?,?,?,?,NOW())";
+          if($stmt = $mysqli2->prepare($sql)) {
+            $stmt->bind_param("sssii",$reply_title,$reply_message,$author,$discussion_id,$post_id);
+            $stmt->execute();
+          }
 					else echo "<p>An error occurred</p>";
-					
 				}
 			}
       else echo "<script>alert('You must be logged in to post reply!')</script>";

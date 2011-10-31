@@ -78,14 +78,9 @@
 				<th>Author</th>
 				<th># Replies</th>
 			</tr>";
-			//while($row = mysql_fetch_array($result)) {
+
+      //get rows of data
 			while($stmt->fetch()) {
-				//retrieve the array of stuff	
-				//$title = $row['title'];
-				//$id = $row['post_id'];
-				//$date_posted = $row['date_posted'];
-				//$posted_by = $row['user_id'];
-				//determine number of replies
 				$sql = "SELECT count(*) as count FROM posts WHERE reply_id='$id'";
 				$replies_result = mysql_query($sql);
 				if($replies_result) {
@@ -103,7 +98,9 @@
 				echo "</td><td id='date_posted'>$date_posted</td><td>$posted_by</td><td>$replies</td></tr>";
 			}
 		echo "</table>";
+    $stmt->close();
 		}
+    $mysqli->close();
 	}
 	
 	//display post details when given a post_id

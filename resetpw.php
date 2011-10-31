@@ -12,26 +12,24 @@ echo "<form action='$form_method' method='post'>";
 
 if($go == "1")
 {
-$user=$_POST['username'];
-$sql = "SELECT username,security_qts,security_qts1,COUNT(*) as c FROM users WHERE username='$user'";
-	$result = mysql_query($sql);
+  $user=$_POST['username'];
+  $mysqli = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
+  $sql = "SELECT security_qts,security_qts1,COUNT(*) as c FROM users WHERE username=?";
+  if($stmt = $mysqli->prepare($sql)) {
+    $stmt->bind_param("s",$user);
+    $stmt->execute();
+    $stmt->bind_result($security_quest,$security_quest1,$count);
+    while($stmt->fetch()) {
+      //not sure I need anything here
+    }
+  }
         
-       	if($result) {
-		while($row = mysql_fetch_array($result))
-                {
-		    $security_quest=$row['security_qts'];
-                    $security_quest1=$row['security_qts1'];
-		    $count = $row['c'];
-                        
-		}
-	} 
 	if($count==0) {
         	echo "<p><a href=resetpw.php>start again</a></p>";
 		exit;
 	}
   else $_SESSION['myusername'] = $user;
 	?>
-        <p>user:<br /><input type="text" name = "myusername" value = "<?php echo $user;?>" />
         <p>Answer the security questions below:<br />
             
 <?php echo $security_quest; ?>

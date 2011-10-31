@@ -22,7 +22,7 @@ $password = mysql_real_escape_string($password);
 $confirm_password = mysql_real_escape_string($confirm_password);
 $errors=0;
 
-$mysqli = new mysqli('132.241.49.7',$admin_username,$admin_password,'cins548');
+$mysqli = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
 $sql = "SELECT security_ans,security_ans1 FROM users WHERE username = ?";
 if($stmt = $mysqli->prepare($sql)) {
   $stmt->bind_param("s",$thisusername);

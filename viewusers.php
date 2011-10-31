@@ -5,16 +5,18 @@ include 'mysql_settings.php';
 
 	//find out if user is admin or not
 	$id = $_SESSION['myusername'];
-	$sql = "SELECT user_type FROM users WHERE username='$id'";
-	$result = mysql_query($sql);
-	if($result) {
-		//user type 0 = regular user	//
-		//user type 1 = moderator user	//
-		//user type 2 = admin user	//
-		while($row = mysql_fetch_array($result)) {
-			$user_type=$row['user_type'];
-		}
-	}
+  $mysqli = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
+	$sql = "SELECT user_type FROM users WHERE username=?";
+  if($stmt = $mysqli->prepare($sql)) {
+    $stmt->bind_param("s",$id);
+    $stmt->execute();
+    $stmt->bind_result($user_type);
+    while($stmt->fetch()) {
+		  //user type 0 = regular user	//
+		  //user type 1 = moderator user	//
+		  //user type 2 = admin user	//
+    }
+  }
 	else $user_type="0";	//set user to lowest privilege(view only)
   
   if($user_type=='2') {

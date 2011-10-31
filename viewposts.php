@@ -61,22 +61,15 @@
     */
 
     //display all posts, if logged in, else show only public posts
-    //if($logged_in==1) $sql = "SELECT * FROM posts WHERE discussion_id=$discussion_id AND reply_id = '0' ORDER BY date_posted desc";
-    if($logged_in==1) $sql = "SELECT title,post_id,date_posted,posted_by FROM posts WHERE discussion_id=? AND reply_id = '0' ORDER BY date_posted desc";
+    if($logged_in==1) $sql = "SELECT title,post_id,date_posted,user_id FROM posts WHERE discussion_id=? AND reply_id = '0' ORDER BY date_posted desc";
     //display public only posts
-    //else $sql = "SELECT * FROM posts WHERE discussion_id=$discussion_id AND reply_id = '0' AND privacy=0 ORDER BY date_posted desc";
-    else $sql = "SELECT title,post_id,date_posted,posted_by FROM posts WHERE discussion_id=? AND reply_id = '0' AND privacy=0 ORDER BY date_posted desc";
-    
+    else $sql = "SELECT title,post_id,date_posted,user_id FROM posts WHERE discussion_id=? AND reply_id = '0' AND privacy=0 ORDER BY date_posted desc";
 
     $mysqli = new mysqli('132.241.49.7','dbadmin','QjpXfePqGNDfvHB79zYwand5','cins548');
-    $stmt = $mysqli->prepare($sql);
+    if($stmt = $mysqli->prepare($sql)) {
     $stmt->bind_param("i",$discussion_id);
     $stmt->execute();
     $stmt->bind_result($title,$id,$date_posted,$posted_by);
-  
-    
-		//if($result) {
-		//if($stmt) {
     
 		echo "<table class='results_table'>
 			<tr class='results_firstrow'>
@@ -110,7 +103,7 @@
 				echo "</td><td id='date_posted'>$date_posted</td><td>$posted_by</td><td>$replies</td></tr>";
 			}
 		echo "</table>";
-		//}
+		}
 	}
 	
 	//display post details when given a post_id

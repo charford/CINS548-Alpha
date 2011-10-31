@@ -117,11 +117,16 @@
       }
 
 			//retrieve discussion_title
-			$sql = "SELECT title FROM discussions WHERE id='$discussion_id'";
-			$result = mysql_query($sql);
-			if($result) {
-				$row = mysql_fetch_assoc($result);
-				$discussion_title=$row['title'];
+      $mysqli = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
+			$sql = "SELECT title FROM discussions WHERE id=?";
+		
+			if($stmt = $mysqli->prepare($sql)) {
+        $stmt->bind_param("i",$discussion_id);
+        $stmt->execute();
+        $stmt->bind_result($discussion_title);
+        while($stmt->fetch()) {
+          //not sure if I need anything here...
+        }
 			}
 			else $discussion_title="UNDEFINED";		//should never be the case
 	

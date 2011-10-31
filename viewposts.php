@@ -39,28 +39,9 @@
         //not sure if i need anything here
       }
     }
+		echo "<a href='?action=viewposts'>View Posts</a> > "; 
+    echo "$discussion_title</p><h2>$discussion_title</h2>";
     
-    
-		  echo "<a href='?action=viewposts'>View Posts</a> > "; 
-    /*
-    if($result) {
-      while($row=$result->fetch()) {
-        //$discussion_title = $row['title'];
-      }
-    }
-    */
-      echo "$discussion_title</p><h2>$discussion_title</h2>";
-    
-    /*
-		if($result) {
-			while ($row = $result->fetch_array(MYSQI_BOTH)) {
-				$discussion_title = $row['title'];
-			}
-		  echo "<a href='?action=viewposts'>View Posts</a> > $discussion_title</p><h2>$discussion_title</h2>";
-
-		}
-    */
-
     //display all posts, if logged in, else show only public posts
     if($logged_in==1) $sql = "SELECT title,post_id,date_posted,user_id FROM posts WHERE discussion_id=? AND reply_id = '0' ORDER BY date_posted desc";
     //display public only posts

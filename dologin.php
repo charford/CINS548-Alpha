@@ -11,14 +11,19 @@
 	$mypassword = mysql_real_escape_string($mypassword);
 
 	//retrieve salt
-	$sql = "SELECT salt FROM users WHERE username='$myusername'";
-	$result = mysql_query($sql);
-	if($result) {
-		while($row = mysql_fetch_array($result)) {
-			$salt = $row['salt'];
-		}
-	}
-	//encrypt using sha256 and an encrypted salt
+	//$sql = "SELECT salt FROM users WHERE username='$myusername'";
+  $mysqli = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
+	$sql = "SELECT salt FROM users WHERE username=?";
+  if($stmt = $mysqli->prepare($sql)) {
+    $stmt->bind_param("s",$myusername);
+    $stmt->execute();
+    $stmt->bind_result($salt);
+    while($stmt->fetch()) {
+      //remove this comment
+    }
+  }
+	
+  //encrypt using sha256 and an encrypted salt
 	$encrypted_mypassword = hash('sha256',$mypassword.$salt);
 
 	$sql = "SELECT * FROM users WHERE username='$myusername' and password='$encrypted_mypassword'";

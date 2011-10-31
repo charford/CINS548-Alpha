@@ -86,13 +86,19 @@ error_reporting(0);
 
 		if($errors==0) {
 			//insert into database
-			$sql = "INSERT INTO users 
-				VALUES ('$username','$password','$salt','$email','$first_name','$last_name','$bday','$street_address','$zipcode','0','$security_question','$security_answer','$security_question1','$security_answer1')";
-			$result = mysql_query($sql);
-			if($result) {
-				echo "<div id='info'>successfully added user</div>";
-			}
-			else echo "failed to add user";
+      $mysqli = new mysqli('132.241.49.7',$admin_username,$admin_password,'cins548');
+			$sql = "INSERT INTO users (username,password,salt,email,f_name,l_name,street_address,
+                                 zipcode,security_qts,security_ans,security_qts1,security_ans1,bday,user_type) 
+              VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,'0')";
+      if($stmt = $mysqli->prepare($sql)) {
+
+        $stmt->bind_param("sssssssssssss",$username,$password,$salt,$email,$fist_name,$last_name,$street_address,
+                          $zipcode,$security_question,$security_answer,$security_question1,$security_answer1,$bday);
+        if($stmt->execute()) {
+				  echo "<div id='info'>successfully added user</div>";
+        }
+			  else echo "failed to add user";
+      }
 		}
 	}
 ?>

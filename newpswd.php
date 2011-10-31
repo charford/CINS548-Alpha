@@ -7,7 +7,6 @@ session_start();
 
 include 'mysql_settings.php';
 $index_file="index.php";
-//$thisusername = $_POST['user'];
 $thisusername = $_SESSION['myusername'];
 $password = $_POST['password'];
 $confirm_password = $_POST['confirm_password'];
@@ -21,27 +20,23 @@ $password = stripslashes($password);
 $confirm_password = stripslashes($confirm_password);
 $password = mysql_real_escape_string($password);
 $confirm_password = mysql_real_escape_string($confirm_password);
-
-//THIS CAN'T BE PASSED LIKE THIS!
-//$sec_ans=$_POST['sec_ans'];
 $errors=0;
 
-//BUG FIX:
-  $sql = "SELECT security_ans,security_ans1 FROM users WHERE username = '$thisusername'";
-  $result = mysql_query($sql);
-  if($result) {
-    $row = mysql_fetch_assoc($result);
-    $sec_ans = $row['security_ans'];
-    $sec_ans1 = $row['security_ans1'];
+$mysqli = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
+$sql = "SELECT security_ans,security_ans1 FROM users WHERE username = ?";
+if($stmt = $mysqli->prepare($sql)) {
+  $stmt->bind_param("s",$thisusername);
+  $stmt->execute();
+  $stmt->bind_result($sec_ans,$sec_ans1);
+  while($stmt->fetch()) {
+    //not sure i need anything here
   }
-  //can't find an answer, ERROR
-  else $errors=1;
-//echo $sec1;
-
+}
+//can't find an answer, ERROR
+else $errors=1;
  
 if($sec!=$sec_ans|| $sec1!=$sec_ans1)
-    echo "<p> <a href= resetpw.php> Wrong security answer, click to go to reset page</a></p>";
-
+  echo "<p> <a href= resetpw.php> Wrong security answer, click to go to reset page</a></p>";
 else{?>
 
 <form action="" method="POST">
@@ -75,23 +70,21 @@ if($password!=$confirm_password) {
     echo "<p>passwords don't match</p>";
     $errors=3;
     }
-        $salt = hash('sha256',date('c'));	//date and time ISO format
-        //encrypt using sha256 and an encrypted salt
-        $password = hash('sha256',$password.$salt);
-        if($errors==0) {
+      $salt = hash('sha256',date('c'));	//date and time ISO format
+      //encrypt using sha256 and an encrypted salt
+      $password = hash('sha256',$password.$salt);
+      if($errors==0) {
 			//insert into database
-			$sql = "update users set password='$password' , salt='$salt' where (users.username='$thisusername')";	
-			$result = mysql_query($sql);
-                        echo "done";
-                  	if($result) {
-				echo "<p>successfully changed password</p>";
-                                echo "<p><a href='index.php'>Click, to go back Home</a></p>";
-			}
-			else die('Invalid query: '. $sql . mysql_error());//echo "failed to add user";
+      $mysqli = new mysqli('132.241.49.7',$admin_username,$admin_password,'cins548');
+			$sql = "update users set password=? , salt=? where (users.username=?)";
+      if($stmt = $mysqli->prepare($sql)) {
+        $stmt->bind_param("sss",$password,$salt,$thisusername);
+        if($stmt->execute()) {
+				  echo "<p>successfully changed password</p>";
+          echo "<p><a href='index.php'>Click, to go back Home</a></p>";
+        }
+			  else echo "<p>failed to update password</p>";
+      }
 		}
-    }
-
-
-
-    
-    ?>
+  }
+?>

@@ -211,7 +211,7 @@
       if(isset($_POST['add_discussion'])) {
         $discussion_title = $_POST['discussion_title'];
         
-        if($stmt = $mysqli->prepare("INSERT INTO discussions (title) VALUES ('$discussion_title')")) {
+        if($stmt = $mysqli->prepare("INSERT INTO discussions (title) VALUES (?)")) {
           $stmt->bind_param("s",$discussion_title);
           $stmt->execute();
         }

@@ -184,20 +184,17 @@
 				";
       
         //display reply posts
-        $sql = "SELECT * FROM posts WHERE reply_id='$post_id' ORDER BY date_posted desc";
-        $result = mysql_query($sql);
-        if($result) {
-          while ($row = mysql_fetch_array($result)) {
-            $title = $row['title'];
-            $author = $row['user_id'];
-            $id = $row['post_id'];
-            $content = $row['content'];
-            $date_posted = $row['date_posted'];
-            
+        $mysqli3 = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
+        $sql = "SELECT title,user_id,post_id,content,date_posted FROM posts WHERE reply_id=? ORDER BY date_posted desc";
+        if($stmt = $mysqli3->prepare($sql)) {
+          $stmt->bind_param("i",$post_id);
+          $stmt->execute();
+          $stmt->bind_result($title,$author,$id,$content,$date_posted);
+          while($stmt->fetch()) {
             echo "<h2>$title</h2>
                   <p>Author: $author, posted $date_posted</p>
                   <p>$content</p>";
-            
+          
           }
         }
 		}
@@ -210,7 +207,6 @@
       $mysqli = new mysqli('132.241.49.7',$admin_username,$admin_password,'cins548');
       if(isset($_POST['add_discussion'])) {
         $discussion_title = $_POST['discussion_title'];
-        
         if($stmt = $mysqli->prepare("INSERT INTO discussions (title) VALUES (?)")) {
           $stmt->bind_param("s",$discussion_title);
           $stmt->execute();

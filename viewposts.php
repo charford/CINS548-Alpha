@@ -105,22 +105,19 @@
 		$post_id = mysql_real_escape_string($post_id);
 
 		//retrieve post content
-		$sql = "SELECT *, COUNT(*) as valid FROM posts WHERE post_id='$post_id'";
-		$result = mysql_query($sql);
-		if($result) {
-			$row = mysql_fetch_assoc($result);
-      $valid = $row['valid'];
+    $mysqli = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
+		$sql = "SELECT title,content,user_id,date_posted,discussion_id,post_id,privacy, COUNT(*) as valid FROM posts WHERE post_id=?";
+    if($stmt = $mysqli->prepare($sql)) {
+      $stmt->bind_param("i",$post_id);
+      $stmt->execute();
+      $stmt->bind_result($post_title,$post_content,$author,$date_posted,$discussion_id,$post_id,$privacy,$valid);
+      while($stmt->fetch()) {
+
+      }
       if($valid==0) {
         echo "<p>Invalid post requested</p>";
         exit;
       }
-			$post_title = $row['title'];
-			$post_content = $row['content'];
-			$author = $row['user_id'];
-			$date_posted = $row['date_posted'];
-			$discussion_id = $row['discussion_id'];
-			$post_id = $row['post_id'];
-      $privacy = $row['privacy'];
 
       if($logged_in==0 && $privacy!=0) {
         echo "<script>alert('You must be logged in to view this post.');</script>";

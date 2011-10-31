@@ -165,38 +165,36 @@
 			}
       else echo "<script>alert('You must be logged in to post reply!')</script>";
 
-			echo "<a href='?action=viewposts'>View Posts</a> > 
-				<a href='?action=viewposts&discussion_id=$discussion_id'>$discussion_title</a> > $post_title</p>
+  	  echo "<a href='?action=viewposts'>View Posts</a> > 
+			<a href='?action=viewposts&discussion_id=$discussion_id'>$discussion_title</a> > $post_title</p>
 
-				<h2>$post_title</h2>
-				<p>Author: $author, posted $date_posted</p>
-				<p>Message:</p>
-				<p>$post_content</p>
-
-				<h3>Leave a reply:</h3>
-				<form action='' method='POST'>
-				<p>Title: <br />
-				<input type='text' name='reply_title' value='' /></p>
-				<p>Message: <br />
-				<textarea name='reply_message' style='width: 300pt; height: 100pt;'></textarea></p>
-				<p><input type='submit' name='reply' value='Reply' /> <input type='reset' value='Clear' /></p>
-				</form>
-				";
+			<h2>$post_title</h2>
+			<p>Author: $author, posted $date_posted</p>
+			<p>Message:</p>
+			<p>$post_content</p>
+			<h3>Leave a reply:</h3>
+			<form action='' method='POST'>
+			<p>Title: <br />
+			<input type='text' name='reply_title' value='' /></p>
+			<p>Message: <br />
+			<textarea name='reply_message' style='width: 300pt; height: 100pt;'></textarea></p>
+			<p><input type='submit' name='reply' value='Reply' /> <input type='reset' value='Clear' /></p>
+			</form>
+			";
       
-        //display reply posts
-        $mysqli3 = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
-        $sql = "SELECT title,user_id,post_id,content,date_posted FROM posts WHERE reply_id=? ORDER BY date_posted desc";
-        if($stmt = $mysqli3->prepare($sql)) {
-          $stmt->bind_param("i",$post_id);
-          $stmt->execute();
-          $stmt->bind_result($title,$author,$id,$content,$date_posted);
-          while($stmt->fetch()) {
-            echo "<h2>$title</h2>
-                  <p>Author: $author, posted $date_posted</p>
-                  <p>$content</p>";
-          
-          }
+      //display reply posts
+      $mysqli3 = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
+      $sql = "SELECT title,user_id,post_id,content,date_posted FROM posts WHERE reply_id=? ORDER BY date_posted desc";
+      if($stmt = $mysqli3->prepare($sql)) {
+        $stmt->bind_param("i",$post_id);
+        $stmt->execute();
+        $stmt->bind_result($title,$author,$id,$content,$date_posted);
+        while($stmt->fetch()) {
+          echo "<h2>$title</h2>
+          <p>Author: $author, posted $date_posted</p>
+          <p>$content</p>";
         }
+      }
 		}
 	}
 	else {

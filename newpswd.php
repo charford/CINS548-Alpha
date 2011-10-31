@@ -75,21 +75,23 @@ if($password!=$confirm_password) {
     echo "<p>passwords don't match</p>";
     $errors=3;
     }
-        $salt = hash('sha256',date('c'));	//date and time ISO format
-        //encrypt using sha256 and an encrypted salt
-        $password = hash('sha256',$password.$salt);
-        if($errors==0) {
+      $salt = hash('sha256',date('c'));	//date and time ISO format
+      //encrypt using sha256 and an encrypted salt
+      $password = hash('sha256',$password.$salt);
+      if($errors==0) {
 			//insert into database
-			$sql = "update users set password='$password' , salt='$salt' where (users.username='$thisusername')";	
-			$result = mysql_query($sql);
-                        echo "done";
-                  	if($result) {
-				echo "<p>successfully changed password</p>";
-                                echo "<p><a href='index.php'>Click, to go back Home</a></p>";
-			}
-			else die('Invalid query: '. $sql . mysql_error());//echo "failed to add user";
+      $mysqli = new mysqli('132.241.49.7',$admin_username,$admin_password,'cins548');
+			$sql = "update users set password=? , salt=? where (users.username=?)";
+      if($stmt = $mysqli->prepare($sql)) {
+        $stmt->bind_param("sss",$password,$salt,$thisusername);
+        if($stmt->execute()) {
+				  echo "<p>successfully changed password</p>";
+          echo "<p><a href='index.php'>Click, to go back Home</a></p>";
+        }
+			  else echo "<p>failed to update password</p>";
+      }
 		}
-    }
+  }
 
 
 

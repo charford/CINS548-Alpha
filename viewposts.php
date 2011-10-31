@@ -31,11 +31,12 @@
 		$discussion_id=mysql_real_escape_string($discussion_id);
     $discussion_id=strip_tags($discussion_id);
 
-    if($stmt = $mysqli->prepare("SELECT title FROM discussions WHERE id=17")) {
-      //$stmt->bind_param("i",$discussion_id);
+    if($stmt = $mysqli->prepare("SELECT title FROM discussions WHERE id=?")) {
+      $stmt->bind_param("i",$discussion_id);
       $stmt->execute();
+      $stmt->bind_result($discussion_title);
       while ($stmt->fetch()) {
-         
+        //not sure if i need anything here
       }
     }
     

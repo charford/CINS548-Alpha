@@ -56,40 +56,35 @@ Edit My User Info</p>
       include 'validate.php';
 
       if($errors==0) {
-
-      //update tables in database with new user info
-      $sql = "UPDATE users SET f_name='$f_name', l_name='$l_name', email='$email', street_address='$street_address', zipcode='$zipcode'
-              WHERE username='$username'";
-      $result = mysql_query($sql);
-      if($result) echo "<p id='info'>Successfully updated user info.</p>";
-      else echo "<p id='alert'>An error occurred.</p>";
-      exit;
+        //update tables in database with new user info
+        $mysqli = new mysqli('132.241.49.7',$admin_username,$admin_password,'cins548');
+        $sql = "UPDATE users SET f_name=?, l_name=?, email=?, street_address=?, zipcode=? WHERE username=?";
+        if($stmt = $mysqli->prepare($sql)) {
+          $stmt->bind_param("ssssss",$f_name,$l_name,$email,$street_address,$zipcode,$username);
+          if($stmt->execute()) {
+            echo "<p id='info'>Successfully updated user info.</p>";
+          }
+          else echo "<p id='alert'>An error occurred.</p>";
+        }
+        exit;
       }
       else echo "<p id='alert'>An error occurred while validating the form data.</p>";
     }
     else {
       //form not submitted yet, retrieve user details to populate form below
       include 'mysql_settings_read.php';
+      $mysqli = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
       $username = $_SESSION['myusername'];
-    
-      $sql = "SELECT f_name,l_name,bday,email,street_address,zipcode
-              FROM users WHERE username='$username'";
-
-      $result = mysql_query($sql);
-  
-      if($result) {
-        while ($row = mysql_fetch_array($result)) {
-          $first_name = $row['f_name'];
-          $last_name = $row['l_name'];
-          $email = $row['email'];
-          $bday = $row['bday'];
-          $street_address = $row['street_address'];
-          $zipcode = $row['zipcode'];
+      $sql = "SELECT f_name,l_name,bday,email,street_address,zipcode FROM users WHERE username=?";
+      if($stmt = $mysqli->prepare($sql)) {
+        $stmt->bind_param("s",$username);
+        $stmt->execute();
+        $stmt->bind_result($first_name,$last_name,$bday,$email,$street_address,$zipcode);
+        while($stmt->fetch()) {
+          //we need to split the bday up into month, day, year
+          //mysql form is: YYYY-MM-DD
+          list($b_year,$b_month,$b_day) = split("-",$bday);
         }
-        //we need to split the bday up into month, day, year
-        //mysql form is: YYYY-MM-DD
-        list($b_year,$b_month,$b_day) = split("-",$bday);
-       
       }
     }
   }

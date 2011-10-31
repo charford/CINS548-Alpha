@@ -9,15 +9,20 @@
 	//find out if user is admin or not
 	//include 'mysql_settings_read.php';
 	$id = $_SESSION['myusername'];
-	$sql = "SELECT user_type FROM users WHERE username='$id'";
-	$result = mysql_query($sql);
-	if($result) {
-		//user type 0 = regular user	//
-		//user type 1 = moderator user	//
-		//user type 2 = admin user	//
-		while($row = mysql_fetch_array($result)) {
-			$user_type=$row['user_type'];
-		}
+
+  
+  $mysqli = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
+	$sql = "SELECT user_type FROM users WHERE username=?";
+	if($stmt = $mysqli->prepare($sql)) {
+    $stmt->bind_param("s",$id);
+    $stmt->execute();
+    $stmt->bind_result($user_type);
+    while($stmt->fetch()) {
+      //do i need anything here
+		  //user type 0 = regular user	//
+		  //user type 1 = moderator user	//
+		  //user type 2 = admin user	//
+    }
 	}
 	else $user_type="0";	//set user to lowest privilege(view only)
   
@@ -31,22 +36,29 @@
 		$discussion_id=mysql_real_escape_string($discussion_id);
     $discussion_id=strip_tags($discussion_id);
 
-		$sql = "SELECT title FROM discussions WHERE id='$discussion_id'";
-		$result = mysql_query($sql);
-		if($result) {
-			while ($row = mysql_fetch_array($result)) {
-				$discussion_title = $row['title'];
-			}
-
-		//display navigation up top
-		echo "<a href='?action=viewposts'>View Posts</a> > $discussion_title</p><h2>$discussion_title</h2>";
-		}
+    $mysqli = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
+    if($stmt = $mysqli->prepare("SELECT title FROM discussions WHERE id=?")) {
+      $stmt->bind_param("i",$discussion_id);
+      $stmt->execute();
+      $stmt->bind_result($discussion_title);
+      while ($stmt->fetch()) {
+        //not sure if i need anything here
+      }
+    }
+		echo "<a href='?action=viewposts'>View Posts</a> > "; 
+    echo "$discussion_title</p><h2>$discussion_title</h2>";
+    
     //display all posts, if logged in, else show only public posts
-    if($logged_in==1) $sql = "SELECT * FROM posts WHERE discussion_id=$discussion_id AND reply_id = '0' ORDER BY date_posted desc";
+    if($logged_in==1) $sql = "SELECT title,post_id,date_posted,user_id FROM posts WHERE discussion_id=? AND reply_id = '0' ORDER BY date_posted desc";
     //display public only posts
-    else $sql = "SELECT * FROM posts WHERE discussion_id=$discussion_id AND reply_id = '0' AND privacy=0 ORDER BY date_posted desc";
-		$result = mysql_query($sql);
-		if($result) {
+    else $sql = "SELECT title,post_id,date_posted,user_id FROM posts WHERE discussion_id=? AND reply_id = '0' AND privacy=0 ORDER BY date_posted desc";
+
+    $mysqli = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
+    if($stmt = $mysqli->prepare($sql)) {
+    $stmt->bind_param("i",$discussion_id);
+    $stmt->execute();
+    $stmt->bind_result($title,$id,$date_posted,$posted_by);
+    
 		echo "<table class='results_table'>
 			<tr class='results_firstrow'>
 				<th>Post Title</th>
@@ -54,20 +66,20 @@
 				<th>Author</th>
 				<th># Replies</th>
 			</tr>";
-			while($row = mysql_fetch_array($result)) {
-				//retrieve the array of stuff	
-				$title = $row['title'];
-				$id = $row['post_id'];
-				$date_posted = $row['date_posted'];
-				$posted_by = $row['user_id'];
-			
-				//determine number of replies
-				$sql = "SELECT count(*) as count FROM posts WHERE reply_id='$id'";
-				$replies_result = mysql_query($sql);
-				if($replies_result) {
-					$row = mysql_fetch_assoc($replies_result);
-					$replies = $row['count'];
-				}
+
+      //get rows of data
+			while($stmt->fetch()) {
+        $mysqli2 = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
+        
+				$sql = "SELECT count(*) as count FROM posts WHERE reply_id=?";
+        if($stmt = $mysqli2->prepare($sql)) {
+          $stmt->bind_param("i",$id);
+          $stmt->execute();
+          $stmt->bind_result($replies);
+          while($stmt->fetch()) {
+            //useless comment
+          }
+        }
 				else {
 					$replies = 0;
 				}
@@ -79,7 +91,9 @@
 				echo "</td><td id='date_posted'>$date_posted</td><td>$posted_by</td><td>$replies</td></tr>";
 			}
 		echo "</table>";
+    $stmt->close();
 		}
+    $mysqli->close();
 	}
 	
 	//display post details when given a post_id
@@ -91,22 +105,19 @@
 		$post_id = mysql_real_escape_string($post_id);
 
 		//retrieve post content
-		$sql = "SELECT *, COUNT(*) as valid FROM posts WHERE post_id='$post_id'";
-		$result = mysql_query($sql);
-		if($result) {
-			$row = mysql_fetch_assoc($result);
-      $valid = $row['valid'];
+    $mysqli = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
+		$sql = "SELECT title,content,user_id,date_posted,discussion_id,post_id,privacy, COUNT(*) as valid FROM posts WHERE post_id=?";
+    if($stmt = $mysqli->prepare($sql)) {
+      $stmt->bind_param("i",$post_id);
+      $stmt->execute();
+      $stmt->bind_result($post_title,$post_content,$author,$date_posted,$discussion_id,$post_id,$privacy,$valid);
+      while($stmt->fetch()) {
+
+      }
       if($valid==0) {
         echo "<p>Invalid post requested</p>";
         exit;
       }
-			$post_title = $row['title'];
-			$post_content = $row['content'];
-			$author = $row['user_id'];
-			$date_posted = $row['date_posted'];
-			$discussion_id = $row['discussion_id'];
-			$post_id = $row['post_id'];
-      $privacy = $row['privacy'];
 
       if($logged_in==0 && $privacy!=0) {
         echo "<script>alert('You must be logged in to view this post.');</script>";
@@ -114,12 +125,16 @@
       }
 
 			//retrieve discussion_title
-			$sql = "SELECT title FROM discussions WHERE id='$discussion_id'";
-			$result = mysql_query($sql);
-			if($result) {
-				$row = mysql_fetch_assoc($result);
-				$discussion_title=$row['title'];
-			}
+      $mysqli2 = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
+			$sql = "SELECT title FROM discussions WHERE id=?";
+      if($stmt = $mysqli2->prepare($sql)) {
+        $stmt->bind_param("i",$discussion_id);
+        $stmt->execute();
+        $stmt->bind_result($discussion_title);
+        while($stmt->fetch()) {
+          //useless
+        }
+      }
 			else $discussion_title="UNDEFINED";		//should never be the case
 	
 			//submit response if reply button pressed
@@ -137,84 +152,73 @@
           $reply_title = strip_tags($reply_title);
           $reply_message = strip_tags($reply_message);
           
-        
-					$sql = "INSERT INTO posts (title,content,user_id,discussion_id,reply_id,date_posted)
-						VALUES ('$reply_title','$reply_message','$author','$discussion_id','$post_id',NOW())";
-					$result = mysql_query($sql);
-					if($result) {
-						//echo "<p>Reply successful</p>";
-					}
+          $mysqli2 = new mysqli('132.241.49.7',$admin_username,$admin_password,'cins548');
+					$sql = "INSERT INTO posts (title,content,user_id,discussion_id,reply_id,date_posted) VALUES (?,?,?,?,?,NOW())";
+          if($stmt = $mysqli2->prepare($sql)) {
+            $stmt->bind_param("sssii",$reply_title,$reply_message,$author,$discussion_id,$post_id);
+            $stmt->execute();
+          }
 					else echo "<p>An error occurred</p>";
-					
 				}
 			}
       else echo "<script>alert('You must be logged in to post reply!')</script>";
 
-			echo "<a href='?action=viewposts'>View Posts</a> > 
-				<a href='?action=viewposts&discussion_id=$discussion_id'>$discussion_title</a> > $post_title</p>
+  	  echo "<a href='?action=viewposts'>View Posts</a> > 
+			<a href='?action=viewposts&discussion_id=$discussion_id'>$discussion_title</a> > $post_title</p>
 
-				<h2>$post_title</h2>
-				<p>Author: $author, posted $date_posted</p>
-				<p>Message:</p>
-				<p>$post_content</p>
-
-				<h3>Leave a reply:</h3>
-				<form action='' method='POST'>
-				<p>Title: <br />
-				<input type='text' name='reply_title' value='' /></p>
-				<p>Message: <br />
-				<textarea name='reply_message' style='width: 300pt; height: 100pt;'></textarea></p>
-				<p><input type='submit' name='reply' value='Reply' /> <input type='reset' value='Clear' /></p>
-				</form>
-				";
+			<h2>$post_title</h2>
+			<p>Author: $author, posted $date_posted</p>
+			<p>Message:</p>
+			<p>$post_content</p>
+			<h3>Leave a reply:</h3>
+			<form action='' method='POST'>
+			<p>Title: <br />
+			<input type='text' name='reply_title' value='' /></p>
+			<p>Message: <br />
+			<textarea name='reply_message' style='width: 300pt; height: 100pt;'></textarea></p>
+			<p><input type='submit' name='reply' value='Reply' /> <input type='reset' value='Clear' /></p>
+			</form>
+			";
       
-        //display reply posts
-        $sql = "SELECT * FROM posts WHERE reply_id='$post_id' ORDER BY date_posted desc";
-        $result = mysql_query($sql);
-        if($result) {
-          while ($row = mysql_fetch_array($result)) {
-            $title = $row['title'];
-            $author = $row['user_id'];
-            $id = $row['post_id'];
-            $content = $row['content'];
-            $date_posted = $row['date_posted'];
-            
-            echo "<h2>$title</h2>
-                  <p>Author: $author, posted $date_posted</p>
-                  <p>$content</p>";
-            
-          }
+      //display reply posts
+      $mysqli3 = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
+      $sql = "SELECT title,user_id,post_id,content,date_posted FROM posts WHERE reply_id=? ORDER BY date_posted desc";
+      if($stmt = $mysqli3->prepare($sql)) {
+        $stmt->bind_param("i",$post_id);
+        $stmt->execute();
+        $stmt->bind_result($title,$author,$id,$content,$date_posted);
+        while($stmt->fetch()) {
+          echo "<h2>$title</h2>
+          <p>Author: $author, posted $date_posted</p>
+          <p>$content</p>";
         }
+      }
 		}
 	}
 	else {
-  //admin options, add discussion if form was submitted
-  if($user_type==2) {
-    if(isset($_POST['add_discussion'])) {
-      $discussion_title = $_POST['discussion_title'];
-      $sql = "INSERT INTO discussions (title) VALUES ('$discussion_title')";
-      $result = mysql_query($sql);
-      if(!$result) echo "<p>failed to add new discussion</p>";
+	  echo "View Posts</p>
+	  <h2>View Posts</h2><p>First, choose a discussion:</p>";
+    //admin options, add discussion if form was submitted
+    if($user_type==2) {
+      $mysqli = new mysqli('132.241.49.7',$admin_username,$admin_password,'cins548');
+      if(isset($_POST['add_discussion'])) {
+        $discussion_title = $_POST['discussion_title'];
+        if($stmt = $mysqli->prepare("INSERT INTO discussions (title) VALUES (?)")) {
+          $stmt->bind_param("s",$discussion_title);
+          $stmt->execute();
+        }
+      }
     }
-  }
-	//retrieve list of discussion_names
-	$sql = "SELECT * FROM discussions ORDER BY title";
-	$result = mysql_query($sql);
-	$discussions_title = array();
-	$discussions_id = array();
-	if($result) {
-		while ($row = mysql_fetch_array($result)) {
-			$title = $row['title'];
-			$id = $row['id'];
-			array_push($discussions_title,$title);
-			array_push($discussions_id,$id);
-		}
-	}
-	echo "View Posts</p>
-	<h2>View Posts</h2><p>First, choose a discussion:</p>";
-		for($i=0;$i<count($discussions_id); $i++) {
-			echo "<p><a href='?action=viewposts&discussion_id=".$discussions_id[$i]."'>".$discussions_title[$i]."</a></p>";
-		}
+	  //retrieve list of discussion_names
+    $mysqli = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
+    if($result = $mysqli->query("SELECT * FROM discussions ORDER BY title")){
+      while($row = $result->fetch_object()) {
+			  $title = $row->title;
+			  $id = $row->id;
+			  echo "<p><a href='?action=viewposts&discussion_id=$id'>$title</a></p>";
+      }
+    }
+
   //administrator options
   if($user_type==2) {
     echo "<h4>Add Discussion</h4>

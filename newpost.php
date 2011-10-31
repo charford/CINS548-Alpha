@@ -41,19 +41,16 @@ if(isset($_POST['post_title'])) {
   $user_id = strip_tags($user_id);
 
 	if(trim($post_title)!="" && trim($post_content)!="") {
-		$sql = "INSERT INTO posts (title,content,date_posted,privacy,user_id,discussion_id,reply_id) 
-			VALUES ('$post_title','$post_content',NOW(),'$privacy','$user_id','$discussion_id','$reply_id')";
-
-		$result = mysql_query($sql);
-		if($result) {
-			echo "<p>added post successfully.</p>";
-		}
-		else {
-			echo "<p>failed adding post.</p>";
-		}
-
+   
+    $mysqli = new mysqli('132.241.49.7',$admin_username,$admin_password,'cins548');
+		$sql = "INSERT INTO posts (title,content,privacy,user_id,discussion_id,reply_id,date_posted) VALUES (?,?,?,?,?,?,NOW())";
+    if($stmt = $mysqli->prepare($sql)) {
+      $stmt->bind_param("ssisii",$post_title,$post_content,$privacy,$user_id,$discussion_id,$reply_id);
+      if($stmt->execute()) {
+        echo "<p>Successfully created new post</p>";
+      }
+    }
 	}
-	
 }
 
 //retrieve list of discussion_names

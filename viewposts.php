@@ -9,15 +9,20 @@
 	//find out if user is admin or not
 	//include 'mysql_settings_read.php';
 	$id = $_SESSION['myusername'];
-	$sql = "SELECT user_type FROM users WHERE username='$id'";
-	$result = mysql_query($sql);
-	if($result) {
-		//user type 0 = regular user	//
-		//user type 1 = moderator user	//
-		//user type 2 = admin user	//
-		while($row = mysql_fetch_array($result)) {
-			$user_type=$row['user_type'];
-		}
+
+  
+  $mysqli = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
+	$sql = "SELECT user_type FROM users WHERE username=?";
+	if($stmt = $mysqli->prepare($sql)) {
+    $stmt->bind_param("s",$id);
+    $stmt->execute();
+    $stmt->bind_result($user_type);
+    while($stmt->fetch()) {
+      //do i need anything here
+		  //user type 0 = regular user	//
+		  //user type 1 = moderator user	//
+		  //user type 2 = admin user	//
+    }
 	}
 	else $user_type="0";	//set user to lowest privilege(view only)
   
@@ -31,6 +36,7 @@
 		$discussion_id=mysql_real_escape_string($discussion_id);
     $discussion_id=strip_tags($discussion_id);
 
+    $mysqli = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
     if($stmt = $mysqli->prepare("SELECT title FROM discussions WHERE id=?")) {
       $stmt->bind_param("i",$discussion_id);
       $stmt->execute();
@@ -117,16 +123,11 @@
       }
 
 			//retrieve discussion_title
-      $mysqli = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
-			$sql = "SELECT title FROM discussions WHERE id=?";
-		
-			if($stmt = $mysqli->prepare($sql)) {
-        $stmt->bind_param("i",$discussion_id);
-        $stmt->execute();
-        $stmt->bind_result($discussion_title);
-        while($stmt->fetch()) {
-          //not sure if I need anything here...
-        }
+			$sql = "SELECT title FROM discussions WHERE id='$discussion_id'";
+			$result = mysql_query($sql);
+			if($result) {
+				$row = mysql_fetch_assoc($result);
+				$discussion_title=$row['title'];
 			}
 			else $discussion_title="UNDEFINED";		//should never be the case
 	

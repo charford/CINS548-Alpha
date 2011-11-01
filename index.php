@@ -7,6 +7,20 @@
   }
   session_start(); 
   error_reporting(1);
+
+	if(isset($_SESSION['logged_in'])) $logged_in = $_SESSION['logged_in'];
+	else $logged_in=0;
+	
+  if(isset($_GET['action'])) $action = $_GET['action'];
+	else $action="login";
+
+	if($action=="logout") {
+		session_destroy();
+		session_start();
+		$action="login";
+		$logged_in=0;
+	}
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -16,18 +30,6 @@
 </head>
 <body>
 <?php	
-	if(isset($_SESSION['logged_in'])) $logged_in = $_SESSION['logged_in'];
-	else $logged_in=0;
-
-	if(isset($_GET['action'])) $action = $_GET['action'];
-	else $action="login";
-
-	if($action=="logout") {
-		session_destroy();
-		session_start();
-		$action="login";
-		$logged_in=0;
-	}
 
 	if($logged_in==0) {
 		switch($action) {

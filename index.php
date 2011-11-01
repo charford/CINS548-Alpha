@@ -1,4 +1,10 @@
-<?php 
+<?php
+  //check if site is being access by SSL, if not, redirect to SSL
+  if(!$_SERVER['HTTPS']) {
+    header("HTTP/1.1 301 Moved Permanently");
+    header("Location: https://132.241.49.6/");
+    exit();
+  }
   session_start(); 
   error_reporting(1);
 ?>

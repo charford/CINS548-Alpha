@@ -72,11 +72,11 @@
         $mysqli2 = new mysqli('132.241.49.7',$read_username,$read_password,'cins548');
         
 				$sql = "SELECT count(*) as count FROM posts WHERE reply_id=?";
-        if($stmt = $mysqli2->prepare($sql)) {
-          $stmt->bind_param("i",$id);
-          $stmt->execute();
-          $stmt->bind_result($replies);
-          while($stmt->fetch()) {
+        if($stmt2 = $mysqli2->prepare($sql)) {
+          $stmt2->bind_param("i",$id);
+          $stmt2->execute();
+          $stmt2->bind_result($replies);
+          while($stmt2->fetch()) {
             //useless comment
           }
         }

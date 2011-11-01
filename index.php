@@ -21,6 +21,14 @@
 		$logged_in=0;
 	}
 
+  //delete post function
+  if($action=="delete" && $logged_in==1) {
+    if(isset($_GET['post_id'])) {
+      include 'delete.php';
+    }
+  }
+  
+
 ?>
 <!DOCTYPE html>
 <html>

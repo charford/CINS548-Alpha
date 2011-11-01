@@ -86,7 +86,7 @@
 			
 				echo "<tr id='postrow'><td><a href='?action=viewposts&post_id=$id'>$title</a>";
 				if($user_type==2) {
-					echo "<span class='delete_post'><a href='?action=delete&post_id=$id'>X</a></span>";
+					echo "<span class='delete_post'><a href='?action=delete&post_id=$id&discussion_id=$discussion_id'>X</a></span>";
 				}
 				echo "</td><td id='date_posted'>$date_posted</td><td>$posted_by</td><td>$replies</td></tr>";
 			}

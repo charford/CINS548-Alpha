@@ -36,6 +36,8 @@ if($stmt = $mysqli->prepare($sql)) {
 else $errors=1;
  
 if($sec!=$sec_ans|| $sec1!=$sec_ans1)
+  $_SESSION['myusername'] = "";
+  session_destroy();
   echo "<p> <a href= resetpw.php> Wrong security answer, click to go to reset page</a></p>";
 else{?>
 
